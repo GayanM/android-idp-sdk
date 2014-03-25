@@ -8,65 +8,48 @@ package org.wso2.mobile.idp.sdk;
  * To change this template use File | Settings | File Templates.
  */
 public class ClientCredentials {
-
-    private String transportProtocol = "http://";
-    private String clientID ;
-    private String clientSecret;
     private String redirectURL;
-    private String authorizeURL;
-    private String accessTokenURL;
-
-
-    public void setAuthorizeURL(String authorizeURL) {
-        this.authorizeURL = authorizeURL;
-    }
-
-    public void setAccessTokenURL(String accessTokenURL) {
-        this.accessTokenURL = accessTokenURL;
-    }
-
-    public String getAuthorizeURL() {
-        return authorizeURL;
-    }
-
-    public String getAccessTokenURL() {
-        return accessTokenURL;
-    }
+    private String clientID = null;
+    private String clientSecret = null;
 
     private static ClientCredentials clientCredentials;
 
     private  ClientCredentials(){
-
     }
 
-    public static ClientCredentials getInstance(){
+    public static ClientCredentials getInstance(String clientID, String clientSecret, String redirectURL){
         if(clientCredentials == null){
             clientCredentials = new ClientCredentials();
+            clientCredentials.setClientID(clientID);
+            clientCredentials.setClientSecret(clientSecret);
+            clientCredentials.setRedirectURL(redirectURL);
         }
         return clientCredentials;
     }
 
-    public String getRedirectURL() {
-        return redirectURL;
-    }
-
-    public void setRedirectURL(String redirectURL) {
-        clientCredentials.redirectURL = redirectURL;
+    public static ClientCredentials getInstance(){
+        return clientCredentials;
     }
 
     public String getClientID() {
         return clientID;
     }
 
-    public void setClientID(String clientID) {
+    private void setClientID(String clientID) {
         clientCredentials.clientID = clientID;
     }
 
     public String getClientSecret() {
         return clientSecret;
     }
-
-    public void setClientSecret(String clientSecret) {
+    private void setClientSecret(String clientSecret) {
         clientCredentials.clientSecret = clientSecret;
+    }
+    public String getRedirectURL() {
+        return redirectURL;
+    }
+
+    private void setRedirectURL(String redirectURL) {
+        this.redirectURL = redirectURL;
     }
 }

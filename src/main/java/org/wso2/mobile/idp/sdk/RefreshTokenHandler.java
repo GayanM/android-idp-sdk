@@ -1,8 +1,6 @@
 package org.wso2.mobile.idp.sdk;
-
 import java.util.HashMap;
 import java.util.Map;
-
 import android.os.AsyncTask;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,50 +20,38 @@ import javax.activity.ActivityCompletedException;
  * Time: 8:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AccessTokenHandler extends Activity {
+public class RefreshTokenHandler extends Activity {
     private Context context;
     private String refreshToken = null;
     private String accessToken = null;
     private String idToken = null;
-    private CallBack callBack;
+    private Activity activity;
+    private Tokens tokens = null;
 
-    public AccessTokenHandler(Context context, CallBack callBack) {
-        this.callBack = callBack;
+    public RefreshTokenHandler(Context context,Activity activity){
+        this.activity = activity;
         this.context = context;
+        tokens = Tokens.getTokensInstance();
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void obtainAccessToken(String code) {
-        new NetworkCallTask(callBack).execute(code);
+    public void obtainNewAccessToken(){
+        new NetworkCallTask(activity).execute();
     }
 
     private class NetworkCallTask extends AsyncTask<String, Void, String> {
-        final CallBack callBack;
-
-        public NetworkCallTask(CallBack callBack) {
-            this.callBack = callBack;
+        final Activity activity;
+        public NetworkCallTask(Activity activity){
+            this.activity = activity;
         }
-
         @Override
         protected String doInBackground(String... params) {
             String response = "";
-            String code = params[0];
-            Log.d("Code", code);
             Map<String, String> request_params = new HashMap<String, String>();
-            request_params.put("grant_type", "authorization_code");
-            request_params.put("code", code);
-            request_params.put("redirect_uri", ClientCredentials.getInstance().getRedirectURL());
-            request_params.put("scope", "openid");
-            Map<String, String> response_params = ServerUtilities.postData(context, TokenEndPoints.getInstance().getAccessTokenURL(), request_params);
+            request_params.put("grant_type", "refresh_token");
+            request_params.put("refresh_token", tokens.getRefreshToken());
+            Map<String, String> response_params = ServerUtilities.postData(context,TokenEndPoints.getInstance().getAccessTokenURL(), request_params);
             response = response_params.get("response");
-            Log.d("RESPONSE", response);
+            Log.d("RESPONSE",response);
             return response;
         }
 
@@ -74,17 +60,14 @@ public class AccessTokenHandler extends Activity {
             try {
                 JSONObject mainObject = new JSONObject(result);
                 refreshToken = mainObject.getString("refresh_token");
-                accessToken = mainObject.getString("access_token");
-                idToken = mainObject.getString("id_token");
-                idToken = new String(Base64.decodeBase64(idToken.getBytes()));
+                accessToken =mainObject.getString("access_token");
 
-                Log.d("Refresh Token", refreshToken);
-                Log.d("Access Token", accessToken);
+                Log.d("Refresh Token",refreshToken);
+                Log.d("Access Token",accessToken);
                 Tokens tokens = Tokens.getTokensInstance();
                 tokens.setAccessToken(accessToken);
                 tokens.setRefreshToken(refreshToken);
-                tokens.setIdToken(idToken);
-                callBack.getAccessToken();
+                activity.closeContextMenu();
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

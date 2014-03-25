@@ -36,19 +36,23 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
 import android.content.Context;
-
 import android.util.Log;
 
 
 
 public class ServerUtilities {
 
-    public static String sendData(){
-        return "Helllo";
+    private static boolean isSSLEnable = false;
+    private static InputStream inputStream;
+    private static String trustStorePassword;
+
+    public static void enableSSL(InputStream in, String myTrustStorePassword){
+        inputStream = in;
+        isSSLEnable = true;
+        trustStorePassword= myTrustStorePassword;
     }
+
 	
 	public static Map<String, String> postData(Context context, String url, Map<String, String> params) {
 	    // Create a new HttpClient and Post Header
@@ -102,24 +106,26 @@ public class ServerUtilities {
 	} 
 	public static HttpClient getCertifiedHttpClient(Context context) {
 	     try {
-	    	/* KeyStore localTrustStore = KeyStore.getInstance("BKS");
-	    	// InputStream in = context.getResources().openRawResource(R.raw.emm_truststore);
-             File file = new File("emm_truststore.bks");
-             InputStream in = new FileInputStream(file);
-	    	 localTrustStore.load(in, IDPSDKConstants.TRUSTSTORE_PASSWORD.toCharArray());
+             HttpClient client = null;
+             if(isSSLEnable){
+                 KeyStore localTrustStore = KeyStore.getInstance("BKS");
+                // InputStream in = context.getResources().openRawResource(R.raw.emm_truststore);
+                 localTrustStore.load(inputStream, trustStorePassword.toCharArray());
 
-	    	 SchemeRegistry schemeRegistry = new SchemeRegistry();
-	    	 schemeRegistry.register(new Scheme("http", PlainSocketFactory
-	    	                 .getSocketFactory(), 80));
-	    	 SSLSocketFactory sslSocketFactory = new SSLSocketFactory(localTrustStore);
-	    	 sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-	    	 schemeRegistry.register(new Scheme("https", sslSocketFactory, 443));
-	    	 HttpParams params = new BasicHttpParams();
-	    	 ClientConnectionManager cm = 
-	    	     new ThreadSafeClientConnManager(params, schemeRegistry);
+                 SchemeRegistry schemeRegistry = new SchemeRegistry();
+                 schemeRegistry.register(new Scheme("http", PlainSocketFactory
+                         .getSocketFactory(), 80));
+                 SSLSocketFactory sslSocketFactory = new SSLSocketFactory(localTrustStore);
+                 sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                 schemeRegistry.register(new Scheme("https", sslSocketFactory, 443));
+                 HttpParams params = new BasicHttpParams();
+                 ClientConnectionManager cm =
+                         new ThreadSafeClientConnManager(params, schemeRegistry);
 
-	    	 HttpClient client = new DefaultHttpClient(cm, params);*/
-	    	 HttpClient client = new DefaultHttpClient();
+                 client = new DefaultHttpClient(cm, params);
+             }else{
+                 client = new DefaultHttpClient();
+             }
 	    	 return client;
 	     } catch (Exception e) {
 	    	 Log.e("ERROR",e.toString());
