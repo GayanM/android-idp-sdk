@@ -48,6 +48,7 @@ public class AccessTokenHandler extends Activity {
 
     private class NetworkCallTask extends AsyncTask<String, Void, String> {
         final CallBack callBack;
+        private String responseCode = null;
 
         public NetworkCallTask(CallBack callBack) {
             this.callBack = callBack;
@@ -65,6 +66,7 @@ public class AccessTokenHandler extends Activity {
             request_params.put("scope", "openid");
             Map<String, String> response_params = ServerUtilities.postData(context, TokenEndPoints.getInstance().getAccessTokenURL(), request_params);
             response = response_params.get("response");
+            responseCode = response_params.get("status");
             Log.d("RESPONSE", response);
             return response;
         }
@@ -72,22 +74,32 @@ public class AccessTokenHandler extends Activity {
         @Override
         protected void onPostExecute(String result) {
             try {
-                JSONObject mainObject = new JSONObject(result);
-                refreshToken = mainObject.getString("refresh_token");
-                accessToken = mainObject.getString("access_token");
-                idToken = mainObject.getString("id_token");
-                idToken = new String(Base64.decodeBase64(idToken.getBytes()));
+                JSONObject response = new JSONObject(result);
+                if(responseCode!=null&&responseCode.equals("200")){
 
-                Log.d("Refresh Token", refreshToken);
-                Log.d("Access Token", accessToken);
-                Tokens tokens = Tokens.getTokensInstance();
-                tokens.setAccessToken(accessToken);
-                tokens.setRefreshToken(refreshToken);
-                tokens.setIdToken(idToken);
-                callBack.getAccessToken();
+                        refreshToken = response.getString("refresh_token");
+                        accessToken = response.getString("access_token");
+                        idToken = response.getString("id_token");
+                        idToken = new String(Base64.decodeBase64(idToken.getBytes()));
+                        Log.d("Refresh Token", refreshToken);
+                        Log.d("Access Token", accessToken);
+                        Tokens tokens = Tokens.getTokensInstance();
+                        tokens.setRefreshToken(refreshToken);
+                        tokens.setIdToken(idToken);
+                        callBack.receiveAccessToken(accessToken,responseCode,"success");
+
+                }else if(responseCode!=null&&responseCode.equals("400")){
+
+                        JSONObject mainObject = new JSONObject(result);
+                        String error = mainObject.getString("error");
+                        String errorDescription = mainObject.getString("error_description");
+                        Log.d("error", error);
+                        Log.d("error_description", errorDescription);
+                        callBack.receiveAccessToken(error,responseCode,errorDescription);
+                }
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
             }
         }
     }

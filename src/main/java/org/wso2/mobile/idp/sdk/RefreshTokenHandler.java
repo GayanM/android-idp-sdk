@@ -25,23 +25,24 @@ public class RefreshTokenHandler extends Activity {
     private String refreshToken = null;
     private String accessToken = null;
     private String idToken = null;
-    private Activity activity;
+    private CallBack callBack;
     private Tokens tokens = null;
 
-    public RefreshTokenHandler(Context context,Activity activity){
-        this.activity = activity;
+    public RefreshTokenHandler(Context context,CallBack callBack){
+        this.callBack = callBack;
         this.context = context;
         tokens = Tokens.getTokensInstance();
     }
 
     public void obtainNewAccessToken(){
-        new NetworkCallTask(activity).execute();
+        new NetworkCallTask(callBack).execute();
     }
 
     private class NetworkCallTask extends AsyncTask<String, Void, String> {
-        final Activity activity;
-        public NetworkCallTask(Activity activity){
-            this.activity = activity;
+        CallBack callBack;
+        private String responseCode = null;
+        public NetworkCallTask(CallBack callBack){
+            this.callBack = callBack;
         }
         @Override
         protected String doInBackground(String... params) {
@@ -51,23 +52,33 @@ public class RefreshTokenHandler extends Activity {
             request_params.put("refresh_token", tokens.getRefreshToken());
             Map<String, String> response_params = ServerUtilities.postData(context,TokenEndPoints.getInstance().getAccessTokenURL(), request_params);
             response = response_params.get("response");
+            responseCode = response_params.get("status");
             Log.d("RESPONSE",response);
             return response;
         }
 
         @Override
         protected void onPostExecute(String result) {
-            try {
-                JSONObject mainObject = new JSONObject(result);
-                refreshToken = mainObject.getString("refresh_token");
-                accessToken =mainObject.getString("access_token");
 
-                Log.d("Refresh Token",refreshToken);
-                Log.d("Access Token",accessToken);
-                Tokens tokens = Tokens.getTokensInstance();
-                tokens.setAccessToken(accessToken);
-                tokens.setRefreshToken(refreshToken);
-                activity.closeContextMenu();
+            try {
+                JSONObject response = new JSONObject(result);
+                if(responseCode!=null&&responseCode.equals("200")){
+                    refreshToken = response.getString("refresh_token");
+                    accessToken =response.getString("access_token");
+                    Log.d("Refresh Token",refreshToken);
+                    Log.d("Access Token",accessToken);
+                    Tokens tokens = Tokens.getTokensInstance();
+                    tokens.setRefreshToken(refreshToken);
+                    callBack.receiveNewAccessToken(accessToken,responseCode,"success");
+
+                }else if(responseCode!=null&&responseCode.equals("400")){
+                    JSONObject mainObject = new JSONObject(result);
+                    String error = mainObject.getString("error");
+                    String errorDescription = mainObject.getString("error_description");
+                    Log.d("error", error);
+                    Log.d("error_description", errorDescription);
+                    callBack.receiveAccessToken(error,responseCode,errorDescription);
+                }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

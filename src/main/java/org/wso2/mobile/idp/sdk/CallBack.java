@@ -8,6 +8,6 @@ package org.wso2.mobile.idp.sdk;
  * To change this template use File | Settings | File Templates.
  */
 public interface CallBack {
-    void getAccessToken();
-    void reNewAccessToken();
+    void receiveAccessToken(String response, String status, String message);
+    void receiveNewAccessToken(String response, String status, String message);
 }

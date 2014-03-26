@@ -91,7 +91,7 @@ public class ServerUtilities {
 	        HttpResponse response = httpclient.execute(httppost);
 	        Log.d("RESPONSE2",response.getStatusLine().getStatusCode()+"");
 	        response_params.put("response",getResponseBody(response));
-			response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+			response_params.put("status",String.valueOf(response.getStatusLine().getStatusCode()));
 			Log.d("RESPONSE",response_params.get("response"));
 			return response_params;
 	    } catch (ClientProtocolException e) {

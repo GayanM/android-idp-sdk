@@ -8,12 +8,9 @@ package org.wso2.mobile.idp.sdk;
  * To change this template use File | Settings | File Templates.
  */
 public final class Tokens {
-    private String accessToken = null;
     private String refreshToken = null;
     private String idToken = null;
     private static Tokens tokensInstance = null;
-
-
     private Tokens(){
 
     }
@@ -32,13 +29,6 @@ public final class Tokens {
         }
         return tokensInstance;
     }
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
 
     public String getRefreshToken() {
         return refreshToken;
@@ -47,7 +37,4 @@ public final class Tokens {
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }
-
-
-
 }
