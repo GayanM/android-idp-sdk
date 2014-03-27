@@ -1,19 +1,15 @@
 package org.wso2.mobile.idp.sdk;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import android.os.AsyncTask;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.util.Log;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.ComponentName;
+import android.os.AsyncTask;
+import android.util.Log;
 import org.apache.commons.codec.binary.Base64;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import javax.activity.ActivityCompletedException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,22 +20,12 @@ import javax.activity.ActivityCompletedException;
  */
 public class AccessTokenHandler extends Activity {
     private Context context;
-    private String refreshToken = null;
-    private String accessToken = null;
     private String idToken = null;
     private CallBack callBack;
 
     public AccessTokenHandler(Context context, CallBack callBack) {
         this.callBack = callBack;
         this.context = context;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
     }
 
     public void obtainAccessToken(String code) {
@@ -75,31 +61,31 @@ public class AccessTokenHandler extends Activity {
         protected void onPostExecute(String result) {
             try {
                 JSONObject response = new JSONObject(result);
-                if(responseCode!=null&&responseCode.equals("200")){
+                if (responseCode != null && responseCode.equals("200")) {
 
-                        refreshToken = response.getString("refresh_token");
-                        accessToken = response.getString("access_token");
-                        idToken = response.getString("id_token");
-                        idToken = new String(Base64.decodeBase64(idToken.getBytes()));
-                        Log.d("Refresh Token", refreshToken);
-                        Log.d("Access Token", accessToken);
-                        Tokens tokens = Tokens.getTokensInstance();
-                        tokens.setRefreshToken(refreshToken);
-                        tokens.setIdToken(idToken);
-                        callBack.receiveAccessToken(accessToken,responseCode,"success");
+                    refreshToken = response.getString("refresh_token");
+                    accessToken = response.getString("access_token");
+                    idToken = response.getString("id_token");
+                    idToken = new String(Base64.decodeBase64(idToken.getBytes()));
+                    Log.d("Refresh Token", refreshToken);
+                    Log.d("Access Token", accessToken);
+                    Tokens tokens = Tokens.getTokensInstance();
+                    tokens.setRefreshToken(refreshToken);
+                    tokens.setIdToken(idToken);
+                    callBack.receiveAccessToken(accessToken, responseCode, "success");
 
-                }else if(responseCode!=null&&responseCode.equals("400")){
+                } else if (responseCode != null && responseCode.equals("400")) {
 
-                        JSONObject mainObject = new JSONObject(result);
-                        String error = mainObject.getString("error");
-                        String errorDescription = mainObject.getString("error_description");
-                        Log.d("error", error);
-                        Log.d("error_description", errorDescription);
-                        callBack.receiveAccessToken(error,responseCode,errorDescription);
+                    JSONObject mainObject = new JSONObject(result);
+                    String error = mainObject.getString("error");
+                    String errorDescription = mainObject.getString("error_description");
+                    Log.d("error", error);
+                    Log.d("error_description", errorDescription);
+                    callBack.receiveAccessToken(error, responseCode, errorDescription);
                 }
             } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
         }
     }

@@ -9,5 +9,6 @@ package org.wso2.mobile.idp.sdk;
  */
 public interface CallBack {
     void receiveAccessToken(String response, String status, String message);
+
     void receiveNewAccessToken(String response, String status, String message);
 }

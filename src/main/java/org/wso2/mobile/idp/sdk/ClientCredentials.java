@@ -14,11 +14,11 @@ public class ClientCredentials {
 
     private static ClientCredentials clientCredentials;
 
-    private  ClientCredentials(){
+    private ClientCredentials() {
     }
 
-    public static ClientCredentials getInstance(String clientID, String clientSecret, String redirectURL){
-        if(clientCredentials == null){
+    public static ClientCredentials getInstance(String clientID, String clientSecret, String redirectURL) {
+        if (clientCredentials == null) {
             clientCredentials = new ClientCredentials();
             clientCredentials.setClientID(clientID);
             clientCredentials.setClientSecret(clientSecret);
@@ -27,7 +27,7 @@ public class ClientCredentials {
         return clientCredentials;
     }
 
-    public static ClientCredentials getInstance(){
+    public static ClientCredentials getInstance() {
         return clientCredentials;
     }
 
@@ -42,9 +42,11 @@ public class ClientCredentials {
     public String getClientSecret() {
         return clientSecret;
     }
+
     private void setClientSecret(String clientSecret) {
         clientCredentials.clientSecret = clientSecret;
     }
+
     public String getRedirectURL() {
         return redirectURL;
     }

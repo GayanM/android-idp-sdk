@@ -1,25 +1,11 @@
 package org.wso2.mobile.idp.sdk;
 
-import java.io.*;
-import java.security.KeyStore;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Map.Entry;
-
-
-
+import android.content.Context;
+import android.util.Log;
 import org.apache.commons.codec.binary.Base64;
-import org.apache.http.HeaderElement;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpVersion;
-import org.apache.http.NameValuePair;
-import org.apache.http.ParseException;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
@@ -29,16 +15,19 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
-import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.content.Context;
-import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.security.KeyStore;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 
 
 public class ServerUtilities {
@@ -47,190 +36,193 @@ public class ServerUtilities {
     private static InputStream inputStream;
     private static String trustStorePassword;
 
-    public static void enableSSL(InputStream in, String myTrustStorePassword){
+    public static void enableSSL(InputStream in, String myTrustStorePassword) {
         inputStream = in;
         isSSLEnable = true;
-        trustStorePassword= myTrustStorePassword;
+        trustStorePassword = myTrustStorePassword;
     }
 
-	
-	public static Map<String, String> postData(Context context, String url, Map<String, String> params) {
-	    // Create a new HttpClient and Post Header
-		Map<String, String> response_params = new HashMap<String, String>();
-	    HttpClient httpclient = getCertifiedHttpClient(context);
-		Log.d(IDPSDKConstants.INFO,"Posting '" + params.toString() + "' to " + url);
-		StringBuilder bodyBuilder = new StringBuilder();
-		Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Entry<String, String> param = iterator.next();
-			bodyBuilder.append(param.getKey()).append('=')
-					.append(param.getValue());
-			if (iterator.hasNext()) {
-				bodyBuilder.append('&');
-			}
-		}
-		
-		String body = bodyBuilder.toString();
-		Log.d(IDPSDKConstants.INFO, "Posting '" + body + "' to " + url);
-		
-		byte[] postData = body.getBytes();	
-		
-		HttpPost httppost = new HttpPost(url);
 
-		httppost.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+    public static Map<String, String> postData(Context context, String url, Map<String, String> params) {
+        // Create a new HttpClient and Post Header
+        Map<String, String> response_params = new HashMap<String, String>();
+        HttpClient httpclient = getCertifiedHttpClient(context);
+        Log.d(IDPSDKConstants.INFO, "Posting '" + params.toString() + "' to " + url);
+        StringBuilder bodyBuilder = new StringBuilder();
+        Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Entry<String, String> param = iterator.next();
+            bodyBuilder.append(param.getKey()).append('=')
+                    .append(param.getValue());
+            if (iterator.hasNext()) {
+                bodyBuilder.append('&');
+            }
+        }
+
+        String body = bodyBuilder.toString();
+        Log.d(IDPSDKConstants.INFO, "Posting '" + body + "' to " + url);
+
+        byte[] postData = body.getBytes();
+
+        HttpPost httppost = new HttpPost(url);
+
+        httppost.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
         httppost.setHeader("Accept", "*/*");
-        httppost.setHeader("User-Agent","Mozilla/5.0 ( compatible ), Android");
+        httppost.setHeader("User-Agent", "Mozilla/5.0 ( compatible ), Android");
 
         ClientCredentials clientCredentials = ClientCredentials.getInstance();
-		
-		String authorizationString = "Basic "+new String(Base64.encodeBase64((clientCredentials.getClientID() + ":" + clientCredentials.getClientSecret()).getBytes())); //this line is diffe
-		httppost.setHeader("Authorization", authorizationString);
-		
-	    try {
-	        httppost.setEntity(new ByteArrayEntity(postData));
-	        HttpResponse response = httpclient.execute(httppost);
-	        Log.d("RESPONSE2",response.getStatusLine().getStatusCode()+"");
-	        response_params.put("response",getResponseBody(response));
-			response_params.put("status",String.valueOf(response.getStatusLine().getStatusCode()));
-			Log.d("RESPONSE",response_params.get("response"));
-			return response_params;
-	    } catch (ClientProtocolException e) {
-	    	e.printStackTrace();
-	    	Log.e("RESPONSE3",e.toString());
-	    	return null;
-	    } catch (IOException e) {
-	    	e.printStackTrace();
-	    	Log.e("RESPONSE4",e.toString());
-	    	return null;
-	    }
-	} 
-	public static HttpClient getCertifiedHttpClient(Context context) {
-	     try {
-             HttpClient client = null;
-             if(isSSLEnable){
-                 KeyStore localTrustStore = KeyStore.getInstance("BKS");
+
+        String authorizationString = "Basic " + new String(Base64.encodeBase64((clientCredentials.getClientID() + ":" + clientCredentials.getClientSecret()).getBytes())); //this line is diffe
+        httppost.setHeader("Authorization", authorizationString);
+
+        try {
+            httppost.setEntity(new ByteArrayEntity(postData));
+            HttpResponse response = httpclient.execute(httppost);
+            Log.d("RESPONSE2", response.getStatusLine().getStatusCode() + "");
+            response_params.put("response", getResponseBody(response));
+            response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+            Log.d("RESPONSE", response_params.get("response"));
+            return response_params;
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+            Log.e("RESPONSE3", e.toString());
+            return null;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("RESPONSE4", e.toString());
+            return null;
+        }
+    }
+
+    public static HttpClient getCertifiedHttpClient(Context context) {
+        try {
+            HttpClient client = null;
+            if (isSSLEnable) {
+                KeyStore localTrustStore = KeyStore.getInstance("BKS");
                 // InputStream in = context.getResources().openRawResource(R.raw.emm_truststore);
-                 localTrustStore.load(inputStream, trustStorePassword.toCharArray());
+                localTrustStore.load(inputStream, trustStorePassword.toCharArray());
 
-                 SchemeRegistry schemeRegistry = new SchemeRegistry();
-                 schemeRegistry.register(new Scheme("http", PlainSocketFactory
-                         .getSocketFactory(), 80));
-                 SSLSocketFactory sslSocketFactory = new SSLSocketFactory(localTrustStore);
-                 sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
-                 schemeRegistry.register(new Scheme("https", sslSocketFactory, 443));
-                 HttpParams params = new BasicHttpParams();
-                 ClientConnectionManager cm =
-                         new ThreadSafeClientConnManager(params, schemeRegistry);
+                SchemeRegistry schemeRegistry = new SchemeRegistry();
+                schemeRegistry.register(new Scheme("http", PlainSocketFactory
+                        .getSocketFactory(), 80));
+                SSLSocketFactory sslSocketFactory = new SSLSocketFactory(localTrustStore);
+                sslSocketFactory.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+                schemeRegistry.register(new Scheme("https", sslSocketFactory, 443));
+                HttpParams params = new BasicHttpParams();
+                ClientConnectionManager cm =
+                        new ThreadSafeClientConnManager(params, schemeRegistry);
 
-                 client = new DefaultHttpClient(cm, params);
-             }else{
-                 client = new DefaultHttpClient();
-             }
-	    	 return client;
-	     } catch (Exception e) {
-	    	 Log.e("ERROR",e.toString());
-	         return null;
-	     }
-	}
-	public static String getResponseBody(HttpResponse response) {
+                client = new DefaultHttpClient(cm, params);
+            } else {
+                client = new DefaultHttpClient();
+            }
+            return client;
+        } catch (Exception e) {
+            Log.e("ERROR", e.toString());
+            return null;
+        }
+    }
 
-	    String response_text = null;
-	    HttpEntity entity = null;
-	    try {
-	        entity = response.getEntity();
-	        response_text = _getResponseBody(entity);
-	    } catch (ParseException e) {
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        if (entity != null) {
-	            try {
-	                entity.consumeContent();
-	            } catch (IOException e1) {
-	            }
-	        }
-	    }
-	    return response_text;
-	}
-	public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException {
+    public static String getResponseBody(HttpResponse response) {
 
-	    if (entity == null) {
-	        throw new IllegalArgumentException("HTTP entity may not be null");
-	    }
+        String response_text = null;
+        HttpEntity entity = null;
+        try {
+            entity = response.getEntity();
+            response_text = _getResponseBody(entity);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            if (entity != null) {
+                try {
+                    entity.consumeContent();
+                } catch (IOException e1) {
+                }
+            }
+        }
+        return response_text;
+    }
 
-	    InputStream instream = entity.getContent();
+    public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException {
 
-	    if (instream == null) {
-	        return "";
-	    }
+        if (entity == null) {
+            throw new IllegalArgumentException("HTTP entity may not be null");
+        }
 
-	    if (entity.getContentLength() > Integer.MAX_VALUE) {
-	        throw new IllegalArgumentException(
+        InputStream instream = entity.getContent();
 
-	        "HTTP entity too large to be buffered in memory");
-	    }
+        if (instream == null) {
+            return "";
+        }
 
-	    String charset = getContentCharSet(entity);
+        if (entity.getContentLength() > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException(
 
-	    if (charset == null) {
+                    "HTTP entity too large to be buffered in memory");
+        }
 
-	        charset = HTTP.DEFAULT_CONTENT_CHARSET;
+        String charset = getContentCharSet(entity);
 
-	    }
+        if (charset == null) {
 
-	    Reader reader = new InputStreamReader(instream, charset);
+            charset = HTTP.DEFAULT_CONTENT_CHARSET;
 
-	    StringBuilder buffer = new StringBuilder();
+        }
 
-	    try {
+        Reader reader = new InputStreamReader(instream, charset);
 
-	        char[] tmp = new char[1024];
+        StringBuilder buffer = new StringBuilder();
 
-	        int l;
+        try {
 
-	        while ((l = reader.read(tmp)) != -1) {
+            char[] tmp = new char[1024];
 
-	            buffer.append(tmp, 0, l);
+            int l;
 
-	        }
+            while ((l = reader.read(tmp)) != -1) {
 
-	    } finally {
+                buffer.append(tmp, 0, l);
 
-	        reader.close();
+            }
 
-	    }
+        } finally {
 
-	    return buffer.toString();
+            reader.close();
 
-	}
+        }
 
-	public static String getContentCharSet(final HttpEntity entity) throws ParseException {
+        return buffer.toString();
 
-	    if (entity == null) {
-	        throw new IllegalArgumentException("HTTP entity may not be null");
-	    }
+    }
 
-	    String charset = null;
+    public static String getContentCharSet(final HttpEntity entity) throws ParseException {
 
-	    if (entity.getContentType() != null) {
+        if (entity == null) {
+            throw new IllegalArgumentException("HTTP entity may not be null");
+        }
 
-	        HeaderElement values[] = entity.getContentType().getElements();
+        String charset = null;
 
-	        if (values.length > 0) {
+        if (entity.getContentType() != null) {
 
-	            NameValuePair param = values[0].getParameterByName("charset");
+            HeaderElement values[] = entity.getContentType().getElements();
 
-	            if (param != null) {
+            if (values.length > 0) {
 
-	                charset = param.getValue();
+                NameValuePair param = values[0].getParameterByName("charset");
 
-	            }
+                if (param != null) {
 
-	        }
+                    charset = param.getValue();
 
-	    }
+                }
 
-	    return charset;
+            }
 
-	}
+        }
+
+        return charset;
+
+    }
 
 }

@@ -13,12 +13,12 @@ public class TokenEndPoints {
     private String accessTokenURL;
     private static TokenEndPoints tokenEndPoints = null;
 
-    private TokenEndPoints(){
+    private TokenEndPoints() {
 
     }
 
-    public static TokenEndPoints getInstance(){
-        if(tokenEndPoints == null){
+    public static TokenEndPoints getInstance() {
+        if (tokenEndPoints == null) {
             tokenEndPoints = new TokenEndPoints();
         }
         return tokenEndPoints;

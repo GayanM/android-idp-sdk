@@ -11,7 +11,8 @@ public final class Tokens {
     private String refreshToken = null;
     private String idToken = null;
     private static Tokens tokensInstance = null;
-    private Tokens(){
+
+    private Tokens() {
 
     }
 
@@ -23,8 +24,8 @@ public final class Tokens {
         this.idToken = idToken;
     }
 
-    public static Tokens getTokensInstance(){
-        if(tokensInstance == null){
+    public static Tokens getTokensInstance() {
+        if (tokensInstance == null) {
             tokensInstance = new Tokens();
         }
         return tokensInstance;
