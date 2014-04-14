@@ -53,7 +53,7 @@ public class AccessTokenHandler extends Activity {
             request_params.put("code", code);
             request_params.put("redirect_uri", IDPConstants.CALL_BACK_URL);
             request_params.put("scope", "openid");
-            Map<String, String> response_params = ServerUtilities.postData(context, TokenEndPoints.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
+            Map<String, String> response_params = ServerUtilities.postData(context, IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
             response = response_params.get("response");
             responseCode = response_params.get("status");
             Log.d(TAG, response);

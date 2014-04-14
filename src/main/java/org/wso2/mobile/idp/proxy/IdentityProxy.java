@@ -17,14 +17,22 @@ public class IdentityProxy implements CallBack {
     private static String TAG = "IdentityProxy";
     private Token token;
     private static IdentityProxy identityProxy = new IdentityProxy();
-    private FrontEndCallBack frontEndCallBack;
     private IdentityProxyActivity identityProxyActivity;
     private Context context;
     private String clientID;
     private String clientSecret;
+    private String accessTokenURL;
 
     private IdentityProxy() {
 
+    }
+
+    public String getAccessTokenURL() {
+        return accessTokenURL;
+    }
+
+    public void setAccessTokenURL(String accessTokenURL) {
+        this.accessTokenURL = accessTokenURL;
     }
 
     public void receiveAccessToken(String status, String message, Token token) {

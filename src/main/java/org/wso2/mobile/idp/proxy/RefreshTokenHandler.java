@@ -49,7 +49,7 @@ public class RefreshTokenHandler extends Activity {
             Map<String, String> request_params = new HashMap<String, String>();
             request_params.put("grant_type", "refresh_token");
             request_params.put("refresh_token", tokens.getRefreshToken());
-            Map<String, String> response_params = ServerUtilities.postData(context, TokenEndPoints.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
+            Map<String, String> response_params = ServerUtilities.postData(context, IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
             response = response_params.get("response");
             responseCode = response_params.get("status");
             Log.d(TAG, response);

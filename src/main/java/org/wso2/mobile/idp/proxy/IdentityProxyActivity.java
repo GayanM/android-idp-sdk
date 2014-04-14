@@ -49,9 +49,8 @@ public class IdentityProxyActivity extends Activity {
         if (data != null) {
             String code = data.getStringExtra("code");
             String accessTokenURL = data.getStringExtra("access_token_url");
-            Log.v("Test Data", code);
-            TokenEndPoints tokenEndPoints = TokenEndPoints.getInstance();
-            tokenEndPoints.setAccessTokenURL(accessTokenURL);
+            Log.v(TAG, code);
+            IdentityProxy.getInstance().setAccessTokenURL(accessTokenURL);
             super.onActivityResult(requestCode, resultCode, data);
             try {
                 AccessTokenHandler accessTokenHandler = new AccessTokenHandler(getApplicationContext(), clientID, clientSecret);
