@@ -5,16 +5,27 @@
     <ignored path="android-idp-sdk.iws" />
     <ignored path=".idea/workspace.xml" />
     <file path="/pom.xml" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1394805436351" ignored="false" />
-    <file path="/WebViewBridge.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395483800919" ignored="false" />
-    <file path="/IDPSDKConstants.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1394816469203" ignored="false" />
-    <file path="/ClientCredentials.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395723089429" ignored="false" />
-    <file path="/ServerUtilities.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395754303253" ignored="false" />
-    <file path="/AccessTokenHandler.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395753514350" ignored="false" />
-    <file path="/Tokens.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395198880151" ignored="false" />
-    <file path="/AndroidManifest.xml" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395481254821" ignored="false" />
-    <file path="/RefreshTokenHandler.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395755484268" ignored="false" />
-    <file path="/TokenEndPoints.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395673481049" ignored="false" />
-    <file path="/CallBack.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395753278661" ignored="false" />
+    <file path="/WebViewBridge.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396693091133" ignored="false" />
+    <file path="/IDPSDKConstants.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396791388319" ignored="false" />
+    <file path="/ClientCredentials.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395909481666" ignored="false" />
+    <file path="/ServerUtilities.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397062947273" ignored="false" />
+    <file path="/AccessTokenHandler.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397253544266" ignored="false" />
+    <file path="/Tokens.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396761026146" ignored="false" />
+    <file path="/AndroidManifest.xml" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396776088377" ignored="false" />
+    <file path="/RefreshTokenHandler.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397249258840" ignored="false" />
+    <file path="/TokenEndPoints.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1395910805795" ignored="false" />
+    <file path="/CallBack.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397064105709" ignored="false" />
+    <file path="$USER_HOME$/svnbuilds/thrift/org.wso2.carbon.identity.entitlement.thrift.sample/src/main/java/org/wso2/carbon/identity/entitlement/thrift/sample/connector/ThriftUtil.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396110962759" ignored="false" />
+    <file path="$USER_HOME$/svnbuilds/thrift/org.wso2.carbon.identity.entitlement.thrift.sample/src/main/java/org/wso2/carbon/identity/entitlement/thrift/sample/AuthorizationManager.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396111957360" ignored="false" />
+    <file path="/AuthorizationManager.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396111951227" ignored="false" />
+    <file path="/IDpProxy.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1396806698069" ignored="false" />
+    <file path="/IDPActivity.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397041678365" ignored="false" />
+    <file path="/IdentityProxy.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397250955948" ignored="false" />
+    <file path="/IdentityProxyActivity.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397252911328" ignored="false" />
+    <file path="/FrontEndCallBack.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397077187487" ignored="false" />
+    <file path="/Token.java" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397251261462" ignored="false" />
+    <file path="/Dummy.txt" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397381595170" ignored="false" />
+    <file path="$USER_HOME$/git-repo/product-emm/modules/p2-profile-gen/pom.xml" changelist="7742624c-3430-454e-8b2e-227ba9fe57ec" time="1397382664753" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,83 +87,81 @@
       <file leaf-file-name="pom.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="21" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
+            <state line="33" column="50" selection-start="988" selection-end="1012" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="WebViewBridge.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/WebViewBridge.java">
+      <file leaf-file-name="IdentityProxyActivity.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IdentityProxyActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="81" selection-start="893" selection-end="893" vertical-scroll-proportion="0.0">
+            <state line="17" column="76" selection-start="535" selection-end="535" vertical-scroll-proportion="0.3075995">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FrontEndCallBack.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/FrontEndCallBack.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="10" column="23" selection-start="229" selection-end="248" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClientCredentials.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ClientCredentials.java">
+      <file leaf-file-name="IdentityProxy.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IdentityProxy.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="46" selection-start="1110" selection-end="1110" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="TokenEndPoints.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/TokenEndPoints.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="5" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0">
+            <state line="53" column="31" selection-start="1690" selection-end="1690" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="AccessTokenHandler.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/AccessTokenHandler.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/AccessTokenHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="28" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RefreshTokenHandler.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/RefreshTokenHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="28" selection-start="491" selection-end="491" vertical-scroll-proportion="-0.28468034">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Tokens.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/Tokens.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="21" column="86" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
+            <state line="50" column="113" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ServerUtilities.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ServerUtilities.java">
+      <file leaf-file-name="IDPConstants.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IDPConstants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="100" selection-start="3467" selection-end="3467" vertical-scroll-proportion="0.0">
+            <state line="5" column="13" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TokenEndPoints.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/TokenEndPoints.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="27" column="5" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RefreshTokenHandler.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/RefreshTokenHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="18" column="13" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="CallBack.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/CallBack.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/CallBack.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="14" column="0" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0">
+            <state line="21" column="73" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -161,10 +170,8 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="17" column="0" selection-start="907" selection-end="907" vertical-scroll-proportion="0.0">
-              <folding>
-                <marker date="1395481283625" expanded="false" signature="547:892" placeholder="..." />
-              </folding>
+            <state line="16" column="69" selection-start="962" selection-end="962" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -179,18 +186,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/jayway/maven/plugins/android/generation2/samples/libraryprojects/aar1/AbstractActivityUsingResources.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/IDPSDKConstants.java" />
-        <option value="$PROJECT_DIR$/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/TokenEndPoints.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ClientCredentials.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/WebViewBridge.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/IDpProxy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/IDPActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/IdentityProxyActivity.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ServerUtilities.java" />
-        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/Tokens.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/CallBack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/IdentityProxy.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/AccessTokenHandler.java" />
         <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/RefreshTokenHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/FrontEndCallBack.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/RefreshTokenHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/Token.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IdentityProxyActivity.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IdentityProxy.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/AccessTokenHandler.java" />
       </list>
     </option>
   </component>
@@ -205,10 +216,10 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="68" />
-    <option name="y" value="136" />
-    <option name="width" value="1853" />
-    <option name="height" value="1027" />
+    <option name="x" value="65" />
+    <option name="y" value="24" />
+    <option name="width" value="1855" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -238,6 +249,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -296,14 +309,12 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="sdk" />
+              <option name="myItemId" value="proxy" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -452,14 +463,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="68" y="136" width="1853" height="1027" extended-state="0" />
+    <frame x="65" y="24" width="1855" height="1056" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
@@ -468,14 +479,14 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.019498607" sideWeight="0.9695321" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.019498607" sideWeight="0.6707865" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24735376" sideWeight="0.9695321" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24512535" sideWeight="0.6707865" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921347" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297062" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -541,30 +552,21 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ClientCredentials.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/AccessTokenHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="70" selection-start="360" selection-end="360" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="76" column="44" selection-start="2697" selection-end="2697" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/AccessTokenHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/Token.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="76" column="44" selection-start="2697" selection-end="2697" vertical-scroll-proportion="0.0">
+        <state line="21" column="30" selection-start="538" selection-end="538" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/Tokens.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="30" selection-start="538" selection-end="538" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ServerUtilities.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/ServerUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="90" column="17" selection-start="3354" selection-end="3354" vertical-scroll-proportion="0.0">
           <folding />
@@ -574,89 +576,92 @@
     <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="6" column="63" selection-start="465" selection-end="465" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1395481283625" expanded="false" signature="547:892" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/IDPSDKConstants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="79" selection-start="347" selection-end="362" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="0" selection-start="907" selection-end="907" vertical-scroll-proportion="0.0">
-          <folding>
-            <marker date="1395481283625" expanded="false" signature="547:892" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/TokenEndPoints.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="5" selection-start="935" selection-end="935" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="21" selection-start="675" selection-end="675" vertical-scroll-proportion="0.0">
+        <state line="33" column="50" selection-start="988" selection-end="1012" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/WebViewBridge.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/TokenEndPoints.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="81" selection-start="893" selection-end="893" vertical-scroll-proportion="0.0">
+        <state line="27" column="5" selection-start="615" selection-end="615" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ClientCredentials.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IDPConstants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="46" selection-start="1110" selection-end="1110" vertical-scroll-proportion="0.0">
+        <state line="5" column="13" selection-start="99" selection-end="99" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/ServerUtilities.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/FrontEndCallBack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="100" selection-start="3467" selection-end="3467" vertical-scroll-proportion="0.0">
+        <state line="10" column="23" selection-start="229" selection-end="248" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/Tokens.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/CallBack.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="86" selection-start="434" selection-end="434" vertical-scroll-proportion="0.0">
+        <state line="21" column="73" selection-start="482" selection-end="482" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/CallBack.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/ServerUtilities.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="14" column="0" selection-start="375" selection-end="375" vertical-scroll-proportion="0.0">
+        <state line="89" column="17" selection-start="3650" selection-end="3651" vertical-scroll-proportion="0.018094089">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/AccessTokenHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/RefreshTokenHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="28" selection-start="537" selection-end="537" vertical-scroll-proportion="0.0">
+        <state line="18" column="13" selection-start="489" selection-end="489" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/Token.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="32" selection-start="894" selection-end="894" vertical-scroll-proportion="0.0">
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/sdk/RefreshTokenHandler.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IdentityProxy.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="28" selection-start="491" selection-end="491" vertical-scroll-proportion="-0.28468034">
+        <state line="53" column="31" selection-start="1690" selection-end="1690" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="69" selection-start="962" selection-end="962" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/AccessTokenHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="113" selection-start="1573" selection-end="1573" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/wso2/mobile/idp/proxy/IdentityProxyActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="76" selection-start="535" selection-end="535" vertical-scroll-proportion="0.3075995">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
