@@ -17,11 +17,11 @@ public class IdentityProxy implements CallBack {
     private static String TAG = "IdentityProxy";
     private Token token;
     private static IdentityProxy identityProxy = new IdentityProxy();
-    private IdentityProxyActivity identityProxyActivity;
     private Context context;
     private String clientID;
     private String clientSecret;
     private String accessTokenURL;
+    private FrontEndCallBack frontEndCallBack;
 
     private IdentityProxy() {
 
@@ -40,26 +40,22 @@ public class IdentityProxy implements CallBack {
         Log.d(TAG, token.getIdToken());
         Log.d(TAG, token.getRefreshToken());
         this.token = token;
-        identityProxyActivity.sendResponse();
+        frontEndCallBack.onTokenReceived();
     }
 
     public void receiveNewAccessToken(String status, String message, Token token) {
         this.token = token;
     }
 
-    public void setIdentityProxyActivity(IdentityProxyActivity identityProxyActivity) {
-        this.identityProxyActivity = identityProxyActivity;
-    }
-
     public static IdentityProxy getInstance() {
         return identityProxy;
     }
 
-    public void init(String clientID, String clientSecret, Context context) {
-        IdentityProxyActivity.setClientCrdentials(clientID, clientSecret);
+    public void init(String clientID, String clientSecret, Context context, FrontEndCallBack frontEndCallBack) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
         this.context = context;
+        this.frontEndCallBack = frontEndCallBack;
     }
 
     public Token getToken() throws Exception, InterruptedException, ExecutionException, TimeoutException {
