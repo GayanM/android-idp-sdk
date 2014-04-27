@@ -6,7 +6,12 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
@@ -32,7 +37,7 @@ import java.util.Map.Entry;
 /**
  * Handle network communication between SDK and authorization server
  */
-public class ServerUtilities {
+public class ServerUtilitiesTemp {
     private final static String TAG = "ServerUtilities";
     private static boolean isSSLEnable = false;
     private static InputStream inputStream;
@@ -50,62 +55,119 @@ public class ServerUtilities {
         trustStorePassword = myTrustStorePassword;
     }
 
-
-    public static synchronized Map<String, String> postData(Context context, String url, Map<String, String> params, String clientID, String clientSecret) {
-        // Create a new HttpClient and Post Header
-        Map<String, String> response_params = new HashMap<String, String>();
-        HttpClient httpclient = getCertifiedHttpClient(context);
-        Log.d(TAG, "Posting '" + params.toString() + "' to " + url);
-        StringBuilder bodyBuilder = new StringBuilder();
-        Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
+    public static String buildPayload(Map<String, String> params){
+    	if(params==null){
+    		return null;
+    	}	
+    	StringBuilder bodyBuilder = new StringBuilder();       
+	    Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
+	    while (iterator.hasNext()) {
+	    	Entry<String, String> param = iterator.next();
+	        bodyBuilder.append(param.getKey()).append('=').append(param.getValue());
+	        if (iterator.hasNext()) {
+	        	bodyBuilder.append('&');
+	        }
+	    }    
+    	return bodyBuilder.toString();
+    }
+    public static HttpRequestBase buildHeaders(HttpRequestBase httpRequestBase, Map<String, String> headers,String httpMethod){
+    	Iterator<Entry<String, String>> iterator = headers.entrySet().iterator();
         while (iterator.hasNext()) {
-            Entry<String, String> param = iterator.next();
-            bodyBuilder.append(param.getKey()).append('=')
-                    .append(param.getValue());
-            if (iterator.hasNext()) {
-                bodyBuilder.append('&');
-            }
+                Entry<String, String> header = iterator.next();
+                httpRequestBase.setHeader(header.getKey(), header.getValue());
         }
+        return httpRequestBase;	  	  	
+    }
+    public static Map<String, String> postData(APIUtilities apiUtilities, Map<String, String> headers) {
+    	String httpMethod = apiUtilities.getHttpMethod();
+    	String url = apiUtilities.getEndPoint();
+       	Map<String, String> params = apiUtilities.getRequestParams();
+    	 	
+    	Map<String, String> response_params = new HashMap<String, String>();
+    	HttpClient httpclient = getCertifiedHttpClient();
+    	String payload = buildPayload(params);
 
-        String body = bodyBuilder.toString();
-        Log.d(TAG, "Posting '" + body + "' to " + url);
-
-        byte[] postData = body.getBytes();
-
-        HttpPost httppost = new HttpPost(url);
-        
-        httppost.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-        httppost.setHeader("Accept", "*/*");
-        httppost.setHeader("User-Agent", "Mozilla/5.0 ( compatible ), Android");
-
-        IdentityProxy clientCredentials = IdentityProxy.getInstance();
-
-        String authorizationString = "Basic " + new String(Base64.encodeBase64((clientID + ":" + clientSecret).getBytes())); //this line is diffe
-        httppost.setHeader("Authorization", authorizationString);
-
-        try {
-            httppost.setEntity(new ByteArrayEntity(postData));
-            HttpResponse response = httpclient.execute(httppost);
-            Log.d(TAG, response.getStatusLine().getStatusCode() + "");
-            response_params.put("response", getResponseBody(response));
-            response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
-            Log.d(TAG, response_params.get("response"));
-            return response_params;
-        } catch (ClientProtocolException e) {
-            Log.d(TAG, e.toString());
-            return null;
-        } catch (IOException e) {
-            Log.d(TAG, e.toString());
-            return null;
-        }
+    	if(httpMethod.equals("POST")){
+    		HttpPost httpPost = new HttpPost(url);
+    		HttpPost httpPostWithHeaders = (HttpPost)buildHeaders(httpPost,headers,httpMethod);
+    		byte[] postData = payload.getBytes();             
+    	    try {
+    	    	httpPostWithHeaders.setEntity(new ByteArrayEntity(postData));
+    	        HttpResponse response = httpclient.execute(httpPostWithHeaders);
+    	        response_params.put("response", getResponseBody(response));
+    	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+    	        return response_params;
+    	    } catch (ClientProtocolException e) {
+    	    	Log.d(TAG, e.toString());
+    	        return null;
+    	    } catch (IOException e) {
+    	        Log.d(TAG, e.toString());
+    	        return null;
+    	    }  
+    	}else if(httpMethod.equals("PUT")){
+    		HttpPut httpPut = new HttpPut(url);
+    		HttpPut httpPutWithHeaders = (HttpPut)buildHeaders(httpPut,headers,httpMethod);
+    		byte[] putData = payload.getBytes();             
+    	    try {
+    	    	httpPutWithHeaders.setEntity(new ByteArrayEntity(putData));
+    	        HttpResponse response = httpclient.execute(httpPutWithHeaders);
+    	        response_params.put("response", getResponseBody(response));
+    	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+    	        return response_params;
+    	    } catch (ClientProtocolException e) {
+    	    	Log.d(TAG, e.toString());
+    	        return null;
+    	    } catch (IOException e) {
+    	        Log.d(TAG, e.toString());
+    	        return null;
+    	    }  
+    	}else if(httpMethod.equals("GET")){ 
+    		if(payload!=null){
+    			url = url+"?"+payload;
+    		}
+    		HttpGet httpGet = new HttpGet(url);
+    		HttpGet httpGetWithHeaders = (HttpGet) buildHeaders(httpGet,headers,httpMethod);
+    		Log.d(TAG,httpGetWithHeaders.toString());
+    	    try {
+    	        HttpResponse response = httpclient.execute(httpGetWithHeaders);
+    	        response_params.put("response", getResponseBody(response));
+    	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+    	        return response_params;
+    	    } catch (ClientProtocolException e) {
+    	    	Log.d(TAG, e.toString());
+    	        return null;
+    	    } catch (IOException e) {
+    	        Log.d(TAG, e.toString());
+    	        return null;
+    	    }  
+    	}else if(httpMethod.equals("Delete")){ 
+    		if(payload!=null){
+    			url = url+"?"+payload;
+    		}
+    		HttpDelete httpDelete = new HttpDelete(url);
+    		HttpDelete httpDeleteWithHeaders = (HttpDelete) buildHeaders(httpDelete,headers,httpMethod);
+    		Log.d(TAG,httpDeleteWithHeaders.toString());
+    	    try {
+    	        HttpResponse response = httpclient.execute(httpDeleteWithHeaders);
+    	        response_params.put("response", getResponseBody(response));
+    	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+    	        return response_params;
+    	    } catch (ClientProtocolException e) {
+    	    	Log.d(TAG, e.toString());
+    	        return null;
+    	    } catch (IOException e) {
+    	        Log.d(TAG, e.toString());
+    	        return null;
+    	    }  
+    	}
+    	return null;   
     }
 
-    public static HttpClient getCertifiedHttpClient(Context context) {
+    public static HttpClient getCertifiedHttpClient() {
         try {
             HttpClient client = null;
             if (isSSLEnable) {
                 KeyStore localTrustStore = KeyStore.getInstance("BKS");
-                // InputStream in = context.getResources().openRawResource(R.raw.emm_truststore);
                 localTrustStore.load(inputStream, trustStorePassword.toCharArray());
 
                 SchemeRegistry schemeRegistry = new SchemeRegistry();

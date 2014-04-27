@@ -1,6 +1,7 @@
 package org.wso2.mobile.idp.proxy;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;

@@ -8,5 +8,5 @@ package org.wso2.mobile.idp.proxy;
  * To change this template use File | Settings | File Templates.
  */
 public interface FrontEndCallBack {
-    public void onTokenReceived();
+    public void onAPIAccessRecive();
 }

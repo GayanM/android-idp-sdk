@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import com.sun.swing.internal.plaf.synth.resources.synth;
+
 /**
  * client application specific data
  */
@@ -37,17 +39,17 @@ public class IdentityProxy implements CallBack {
 
     public void receiveAccessToken(String status, String message, Token token) {
         Log.d(TAG, token.getAccessToken());
-        Log.d(TAG, token.getIdToken());
+      //  Log.d(TAG, token.getIdToken());
         Log.d(TAG, token.getRefreshToken());
         this.token = token;
-        frontEndCallBack.onTokenReceived();
+        frontEndCallBack.onAPIAccessRecive();
     }
 
     public void receiveNewAccessToken(String status, String message, Token token) {
         this.token = token;
     }
 
-    public static IdentityProxy getInstance() {
+    public static synchronized IdentityProxy getInstance() {
         return identityProxy;
     }
 
@@ -59,6 +61,9 @@ public class IdentityProxy implements CallBack {
     }
 
     public Token getToken() throws Exception, InterruptedException, ExecutionException, TimeoutException {
+        if(token == null){
+            return null;
+        }
         boolean decision = dateComparison(token.getDate());
         if (decision) {
             return token;

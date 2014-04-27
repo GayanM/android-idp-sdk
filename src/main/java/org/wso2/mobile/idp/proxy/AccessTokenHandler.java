@@ -73,13 +73,13 @@ public class AccessTokenHandler extends Activity {
 
                     refreshToken = response.getString("refresh_token");
                     accessToken = response.getString("access_token");
-                    idToken = response.getString("id_token");
-                    idToken = new String(Base64.decodeBase64(idToken.getBytes()));
+                   // idToken = response.getString("id_token");
+                  //  idToken = new String(Base64.decodeBase64(idToken.getBytes()));
                     Log.d(TAG, refreshToken);
                     Log.d(TAG, accessToken);
 
                     token.setRefreshToken(refreshToken);
-                    token.setIdToken(idToken);
+                 //   token.setIdToken(idToken);
                     token.setAccessToken(accessToken);
                     token.setDate();
                     identityProxy.receiveAccessToken(responseCode, "success", token);
