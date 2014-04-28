@@ -40,8 +40,8 @@ public class AccessTokenHandler extends Activity {
      * AsyncTask to contact authorization server and get access token, refresh token as a result
      */
     private class NetworkCallTask extends AsyncTask<Void, Void, String> {
+        private String response = null;
         private String responseCode = null;
-
         public NetworkCallTask() {
 
         }
@@ -63,8 +63,8 @@ public class AccessTokenHandler extends Activity {
             headers.put("Content-Type", "application/x-www-form-urlencoded");
             
             Map<String, String> response_params = ServerUtilitiesTemp.postData(apiUtilities,headers);
-            String response = response_params.get("response");
-            String responseCode = response_params.get("status");
+            response = response_params.get("response");
+            responseCode = response_params.get("status");
             Log.d(TAG, response);
             return response;
         }

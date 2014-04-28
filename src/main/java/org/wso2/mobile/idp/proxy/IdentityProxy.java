@@ -10,8 +10,6 @@ import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-import com.sun.swing.internal.plaf.synth.resources.synth;
-
 /**
  * client application specific data
  */
@@ -23,11 +21,8 @@ public class IdentityProxy implements CallBack {
     private String clientID;
     private String clientSecret;
     private String accessTokenURL;
-    private APICallBack apiCallBack;
+    private APIAccessCallBack apiAccessCallBack;
 
-    public APICallBack getApiCallBack() {
-		return apiCallBack;
-	}
 
 	private IdentityProxy() {
 
@@ -46,7 +41,7 @@ public class IdentityProxy implements CallBack {
       //  Log.d(TAG, token.getIdToken());
         Log.d(TAG, token.getRefreshToken());
         this.token = token;
-        apiCallBack.onAPIAccessRecive();
+        apiAccessCallBack.onAPIAccessRecive();
     }
 
     public void receiveNewAccessToken(String status, String message, Token token) {
@@ -57,10 +52,10 @@ public class IdentityProxy implements CallBack {
         return identityProxy;
     }
     
-    public void init(String clientID, String clientSecret,String username, String password,String tokenEndPoint, APICallBack apiCallBack) {
+    public void init(String clientID, String clientSecret,String username, String password,String tokenEndPoint, APIAccessCallBack apiAccessCallBack) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
-        this.apiCallBack = apiCallBack;
+        this.apiAccessCallBack = apiAccessCallBack;
         AccessTokenHandler accessTokenHandler = new AccessTokenHandler(clientID, clientSecret, username, password, tokenEndPoint, this);
         accessTokenHandler.obtainAccessToken();
     }

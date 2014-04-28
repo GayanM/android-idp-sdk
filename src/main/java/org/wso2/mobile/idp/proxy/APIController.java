@@ -5,23 +5,17 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import android.os.AsyncTask;
-
-
-import android.content.Context;
-import android.util.Log;
 
 public class APIController {
 	private static String TAG = "APIController";
-	public  void invokeAPI(APIUtilities apiUtilities){
-		new NetworkCallTask(IdentityProxy.getInstance().getApiCallBack()).execute(apiUtilities);
+	public  void invokeAPI(APIUtilities apiUtilities, APIResultCallBack apiResultCallBack){
+		new NetworkCallTask(apiResultCallBack).execute(apiUtilities);
 	}
 	 private class NetworkCallTask extends AsyncTask<APIUtilities, Void, Map<String,String>> {
-		 	APICallBack apiCallBack;
-	        public NetworkCallTask(APICallBack apiCallBack) {
-	        	this.apiCallBack = apiCallBack;
+		 	APIResultCallBack apiResultCallBack;
+	        public NetworkCallTask(APIResultCallBack apiResultCallBack) {
+	        	this.apiResultCallBack = apiResultCallBack;
 	        }
 
 	        @Override
@@ -50,10 +44,9 @@ public class APIController {
                 }
                 return null;
 	        }
-
 	        @Override
 	        protected void onPostExecute(Map<String,String> result) {
-	        	apiCallBack.onReceiveAPIResult(result);
+	        	apiResultCallBack.onReceiveAPIResult(result);
 	        }
 	    }
 }
