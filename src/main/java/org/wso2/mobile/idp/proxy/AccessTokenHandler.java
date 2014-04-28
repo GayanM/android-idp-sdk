@@ -16,27 +16,30 @@ import java.util.Map;
  */
 public class AccessTokenHandler extends Activity {
     private static final String TAG = "AccessTokenHandler";
-    private Context context;
-    private String idToken = null;
     private CallBack callBack;
-    private String clientSecret = null;
+    private String username = null;
+    private String password = null;
     private String clientID = null;
+    private String clientSecret = null;
+    private String tokenEndPoint = null;
 
-    public AccessTokenHandler(Context context, String clientID, String clientSecret) {
+    public AccessTokenHandler(String clientID, String clientSecret, String username, String password, String tokenEndPoint, CallBack callBack) {
         this.callBack = callBack;
-        this.context = context;
+        this.username = username;
+        this.password = password;
         this.clientID = clientID;
         this.clientSecret = clientSecret;
+        this.tokenEndPoint = tokenEndPoint;
     }
 
-    public void obtainAccessToken(String code) {
-        new NetworkCallTask().execute(code);
+    public void obtainAccessToken() {
+        new NetworkCallTask().execute();
     }
 
     /**
      * AsyncTask to contact authorization server and get access token, refresh token as a result
      */
-    private class NetworkCallTask extends AsyncTask<String, Void, String> {
+    private class NetworkCallTask extends AsyncTask<Void, Void, String> {
         private String responseCode = null;
 
         public NetworkCallTask() {
@@ -44,18 +47,24 @@ public class AccessTokenHandler extends Activity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            String response = "";
-            String code = params[0];
-            Log.d(TAG, code);
+        protected String doInBackground(Void... arg0) {
             Map<String, String> request_params = new HashMap<String, String>();
-            request_params.put("grant_type", "authorization_code");
-            request_params.put("code", code);
-            request_params.put("redirect_uri", IDPConstants.CALL_BACK_URL);
-            request_params.put("scope", "openid");
-            Map<String, String> response_params = ServerUtilities.postData(context, IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
-            response = response_params.get("response");
-            responseCode = response_params.get("status");
+            request_params.put("grant_type", "password");
+            request_params.put("username", username);
+            request_params.put("password", password);
+            APIUtilities apiUtilities = new APIUtilities();
+            apiUtilities.setEndPoint(tokenEndPoint);
+            apiUtilities.setHttpMethod("POST");
+            apiUtilities.setRequestParams(request_params);
+               
+            Map<String, String> headers = new HashMap<String, String>();
+            String authorizationString = "Basic " + new String(Base64.encodeBase64((clientID + ":" + clientSecret).getBytes()));
+            headers.put("Authorization", authorizationString);
+            headers.put("Content-Type", "application/x-www-form-urlencoded");
+            
+            Map<String, String> response_params = ServerUtilitiesTemp.postData(apiUtilities,headers);
+            String response = response_params.get("response");
+            String responseCode = response_params.get("status");
             Log.d(TAG, response);
             return response;
         }

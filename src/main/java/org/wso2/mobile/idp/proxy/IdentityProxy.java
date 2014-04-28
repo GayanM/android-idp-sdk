@@ -23,9 +23,13 @@ public class IdentityProxy implements CallBack {
     private String clientID;
     private String clientSecret;
     private String accessTokenURL;
-    private FrontEndCallBack frontEndCallBack;
+    private APICallBack apiCallBack;
 
-    private IdentityProxy() {
+    public APICallBack getApiCallBack() {
+		return apiCallBack;
+	}
+
+	private IdentityProxy() {
 
     }
 
@@ -42,7 +46,7 @@ public class IdentityProxy implements CallBack {
       //  Log.d(TAG, token.getIdToken());
         Log.d(TAG, token.getRefreshToken());
         this.token = token;
-        frontEndCallBack.onAPIAccessRecive();
+        apiCallBack.onAPIAccessRecive();
     }
 
     public void receiveNewAccessToken(String status, String message, Token token) {
@@ -52,12 +56,13 @@ public class IdentityProxy implements CallBack {
     public static synchronized IdentityProxy getInstance() {
         return identityProxy;
     }
-
-    public void init(String clientID, String clientSecret, Context context, FrontEndCallBack frontEndCallBack) {
+    
+    public void init(String clientID, String clientSecret,String username, String password,String tokenEndPoint, APICallBack apiCallBack) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
-        this.context = context;
-        this.frontEndCallBack = frontEndCallBack;
+        this.apiCallBack = apiCallBack;
+        AccessTokenHandler accessTokenHandler = new AccessTokenHandler(clientID, clientSecret, username, password, tokenEndPoint, this);
+        accessTokenHandler.obtainAccessToken();
     }
 
     public Token getToken() throws Exception, InterruptedException, ExecutionException, TimeoutException {

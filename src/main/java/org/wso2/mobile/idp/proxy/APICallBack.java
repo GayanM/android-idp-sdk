@@ -1,5 +1,8 @@
 package org.wso2.mobile.idp.proxy;
 
+import java.util.Map;
+
 public interface APICallBack {
-	public void onReceiveAPIResult(String result);
+	public void onAPIAccessRecive();
+	public void onReceiveAPIResult(Map <String,String> result);
 }
