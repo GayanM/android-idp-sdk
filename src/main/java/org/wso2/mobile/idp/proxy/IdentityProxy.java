@@ -1,6 +1,23 @@
+/*
+ *  Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *  WSO2 Inc. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
 package org.wso2.mobile.idp.proxy;
 
-import android.content.Context;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -17,11 +34,10 @@ public class IdentityProxy implements CallBack {
     private static String TAG = "IdentityProxy";
     private Token token;
     private static IdentityProxy identityProxy = new IdentityProxy();
-    private Context context;
     private String clientID;
     private String clientSecret;
     private String accessTokenURL;
-    private FrontEndCallBack frontEndCallBack;
+    private AccessTokenCallBack accessTokenCallBack;
 
     private IdentityProxy() {
 
@@ -40,7 +56,7 @@ public class IdentityProxy implements CallBack {
         Log.d(TAG, token.getIdToken());
         Log.d(TAG, token.getRefreshToken());
         this.token = token;
-        frontEndCallBack.onTokenReceived();
+        accessTokenCallBack.onTokenReceived();
     }
 
     public void receiveNewAccessToken(String status, String message, Token token) {
@@ -51,11 +67,10 @@ public class IdentityProxy implements CallBack {
         return identityProxy;
     }
 
-    public void init(String clientID, String clientSecret, Context context, FrontEndCallBack frontEndCallBack) {
+    public void init(String clientID, String clientSecret, AccessTokenCallBack accessTokenCallBack) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
-        this.context = context;
-        this.frontEndCallBack = frontEndCallBack;
+        this.accessTokenCallBack = accessTokenCallBack;
     }
 
     public Token getToken() throws Exception, InterruptedException, ExecutionException, TimeoutException {
@@ -63,11 +78,16 @@ public class IdentityProxy implements CallBack {
         if (decision) {
             return token;
         }
-        RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(context, clientID, clientSecret, token);
+        RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(clientID, clientSecret, token);
         refreshTokenHandler.obtainNewAccessToken();
         return token;
     }
 
+    /** check the age of access token, if it is more than 3000secs, will get a new access token
+     *
+     * @param date
+     * @return
+     */
     public boolean dateComparison(Date date) {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
         Date currentDate = new Date();
@@ -81,7 +101,7 @@ public class IdentityProxy implements CallBack {
         }
         long diff = (currentDate.getTime() - date.getTime());
         long diffSeconds = diff / 1000 % 60;
-        if (diffSeconds < 3000) {
+        if (diffSeconds < IDPConstants.ACCESS_TOKEN_AGE) {
             return true;
         }
         return false;

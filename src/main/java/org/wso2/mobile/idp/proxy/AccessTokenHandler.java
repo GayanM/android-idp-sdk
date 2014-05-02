@@ -1,3 +1,21 @@
+/*
+ *  Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *  WSO2 Inc. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
 package org.wso2.mobile.idp.proxy;
 
 import android.app.Activity;
@@ -12,91 +30,108 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * After receiving authorization code client application can use this class to obtain access token
+ * After receiving authorization code, this class can be used to obtain access token
  */
 public class AccessTokenHandler extends Activity {
     private static final String TAG = "AccessTokenHandler";
-    private Context context;
-    private String idToken = null;
-    private CallBack callBack;
     private String clientSecret = null;
     private String clientID = null;
 
-    public AccessTokenHandler(Context context, String clientID, String clientSecret) {
-        this.callBack = callBack;
-        this.context = context;
+    /**
+     *
+     * @param clientID
+     * @param clientSecret
+     */
+    public AccessTokenHandler(String clientID, String clientSecret) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
     }
 
+    /**
+     *
+     * @param code
+     */
     public void obtainAccessToken(String code) {
         new NetworkCallTask().execute(code);
     }
 
     /**
-     * AsyncTask to contact authorization server and get access token, refresh token as a result
+     * AsyncTask to send authorization code and get access token and refresh token from authorization server
      */
-    private class NetworkCallTask extends AsyncTask<String, Void, String> {
-        private String responseCode = null;
+    private class NetworkCallTask extends AsyncTask<String, Void, Map<String,String>> {
 
         public NetworkCallTask() {
 
         }
 
+        /**
+         *
+         * @param params array of Strings first element as authorization code
+         * @return
+         */
         @Override
-        protected String doInBackground(String... params) {
-            String response = "";
+        protected Map<String,String> doInBackground(String... params) {
+            if(params == null || params[0] == null){
+                return null;
+            }
             String code = params[0];
             Log.d(TAG, code);
             Map<String, String> request_params = new HashMap<String, String>();
+            // TODO : consider extract these as constants
             request_params.put("grant_type", "authorization_code");
             request_params.put("code", code);
             request_params.put("redirect_uri", IDPConstants.CALL_BACK_URL);
             request_params.put("scope", "openid");
-            Map<String, String> response_params = ServerUtilities.postData(context, IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
-            response = response_params.get("response");
-            responseCode = response_params.get("status");
-            Log.d(TAG, response);
-            return response;
+            Map<String, String> responseParams = ServerUtilities.postData(IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
+            return responseParams;
         }
 
+        /**
+         * access token, refresh token and id token will be received from response, After receiving tokens invoke receiveAccessToken method in CallBack
+         * @param responseParams HashMap with two elements response and status
+         */
         @Override
-        protected void onPostExecute(String result) {
-            String refreshToken = null;
-            String accessToken = null;
+        protected void onPostExecute(Map<String,String> responseParams) {
+
+        	if(responseParams==null){
+        		return;
+        	}
+
+        	String response = responseParams.get("response");
+        	String responseCode = responseParams.get("status");
+            Log.d(TAG,response);
+
             try {
-                JSONObject response = new JSONObject(result);
-                Token token = new Token();
+                JSONObject responseJSONObj = new JSONObject(response);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
                 if (responseCode != null && responseCode.equals("200")) {
+                    String refreshToken = responseJSONObj.getString("refresh_token");
+                    String accessToken = responseJSONObj.getString("access_token");
+                    String idToken = responseJSONObj.getString("id_token");
 
-                    refreshToken = response.getString("refresh_token");
-                    accessToken = response.getString("access_token");
-                    idToken = response.getString("id_token");
                     idToken = new String(Base64.decodeBase64(idToken.getBytes()));
-                    Log.d(TAG, refreshToken);
-                    Log.d(TAG, accessToken);
 
+                    Token token = new Token();
                     token.setRefreshToken(refreshToken);
                     token.setIdToken(idToken);
                     token.setAccessToken(accessToken);
                     token.setDate();
-                    identityProxy.receiveAccessToken(responseCode, "success", token);
 
+                    identityProxy.receiveAccessToken(responseCode, "success", token);
                 } else if (responseCode != null && responseCode.equals("400")) {
 
-                    JSONObject mainObject = new JSONObject(result);
-                    String error = mainObject.getString("error");
-                    String errorDescription = mainObject.getString("error_description");
+                    String error = responseJSONObj.getString("error");
+                    String errorDescription = responseJSONObj.getString("error_description");
                     Log.d(TAG, error);
                     Log.d(TAG, errorDescription);
-                    identityProxy.receiveAccessToken(responseCode, errorDescription, token);
+
+                    identityProxy.receiveAccessToken(responseCode, errorDescription, null);
                 }
-            } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+            }catch (JSONException e) {
+                Log.d(TAG,e.toString());
             }
+            
         }
     }
 }

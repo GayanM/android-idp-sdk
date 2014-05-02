@@ -1,3 +1,21 @@
+/*
+ *  Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *  WSO2 Inc. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
 package org.wso2.mobile.idp.proxy;
 
 import android.content.Context;
@@ -41,8 +59,8 @@ public class ServerUtilities {
     /**
      * Enable SSL communication between client application and authorization server (if you have selfish sign certificate)
      *
-     * @param in
-     * @param myTrustStorePassword
+     * @param in read self sign certificate from BKS as a InputStream
+     * @param myTrustStorePassword key store password
      */
     public static void enableSSL(InputStream in, String myTrustStorePassword) {
         inputStream = in;
@@ -50,11 +68,19 @@ public class ServerUtilities {
         trustStorePassword = myTrustStorePassword;
     }
 
-
-    public static Map<String, String> postData(Context context, String url, Map<String, String> params, String clientID, String clientSecret) {
+    /**
+     *
+     * @param context
+     * @param url
+     * @param params
+     * @param clientID
+     * @param clientSecret
+     * @return
+     */
+    public static Map<String, String> postData(String url, Map<String, String> params, String clientID, String clientSecret) {
         // Create a new HttpClient and Post Header
         Map<String, String> response_params = new HashMap<String, String>();
-        HttpClient httpclient = getCertifiedHttpClient(context);
+        HttpClient httpclient = getCertifiedHttpClient();
         Log.d(TAG, "Posting '" + params.toString() + "' to " + url);
         StringBuilder bodyBuilder = new StringBuilder();
         Iterator<Entry<String, String>> iterator = params.entrySet().iterator();
@@ -78,8 +104,6 @@ public class ServerUtilities {
         httppost.setHeader("Accept", "*/*");
         httppost.setHeader("User-Agent", "Mozilla/5.0 ( compatible ), Android");
 
-        IdentityProxy clientCredentials = IdentityProxy.getInstance();
-
         String authorizationString = "Basic " + new String(Base64.encodeBase64((clientID + ":" + clientSecret).getBytes())); //this line is diffe
         httppost.setHeader("Authorization", authorizationString);
 
@@ -100,12 +124,11 @@ public class ServerUtilities {
         }
     }
 
-    public static HttpClient getCertifiedHttpClient(Context context) {
+    public static HttpClient getCertifiedHttpClient() {
         try {
             HttpClient client = null;
             if (isSSLEnable) {
                 KeyStore localTrustStore = KeyStore.getInstance("BKS");
-                // InputStream in = context.getResources().openRawResource(R.raw.emm_truststore);
                 localTrustStore.load(inputStream, trustStorePassword.toCharArray());
 
                 SchemeRegistry schemeRegistry = new SchemeRegistry();
@@ -129,6 +152,11 @@ public class ServerUtilities {
         }
     }
 
+    /**
+     *
+     * @param response
+     * @return
+     */
     public static String getResponseBody(HttpResponse response) {
 
         String response_text = null;
@@ -150,6 +178,13 @@ public class ServerUtilities {
         return response_text;
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     * @throws IOException
+     * @throws ParseException
+     */
     public static String _getResponseBody(final HttpEntity entity) throws IOException, ParseException {
 
         if (entity == null) {
@@ -202,6 +237,12 @@ public class ServerUtilities {
 
     }
 
+    /**
+     *
+     * @param entity
+     * @return
+     * @throws ParseException
+     */
     public static String getContentCharSet(final HttpEntity entity) throws ParseException {
 
         if (entity == null) {

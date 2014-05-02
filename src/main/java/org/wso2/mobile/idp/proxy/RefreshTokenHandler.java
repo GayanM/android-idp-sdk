@@ -1,9 +1,29 @@
+/*
+ *  Copyright (c) 2005-2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ *  WSO2 Inc. licenses this file to you under the Apache License,
+ *  Version 2.0 (the "License"); you may not use this file except
+ *  in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ *
+ */
 package org.wso2.mobile.idp.proxy;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.util.StringBuilderPrinter;
+import android.view.ViewGroup;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -14,18 +34,21 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 /**
- * Getting new access token and refresh token after access token expiration
+ * Getting new access token and refresh token  from refresh grant after access token is expired
  */
 public class RefreshTokenHandler extends Activity {
-    private Context context;
     private Token tokens = null;
     private static final String TAG = "RefreshTokenHandler";
     private String clientID = null;
     private String clientSecret = null;
     private Token token;
 
-    public RefreshTokenHandler(Context context, String clientID, String clientSecret, Token token) {
-        this.context = context;
+    /**
+     * @param clientID
+     * @param clientSecret
+     * @param token
+     */
+    public RefreshTokenHandler(String clientID, String clientSecret, Token token) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
         this.token = token;
@@ -35,7 +58,7 @@ public class RefreshTokenHandler extends Activity {
         new NetworkCallTask().execute().get(1000, TimeUnit.MILLISECONDS);
     }
 
-    private class NetworkCallTask extends AsyncTask<String, Void, String> {
+    private class NetworkCallTask extends AsyncTask<Void, Void, Map<String,String>> {
 
         private String responseCode = null;
 
@@ -44,44 +67,45 @@ public class RefreshTokenHandler extends Activity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
-            String response = "";
-            Map<String, String> request_params = new HashMap<String, String>();
-            request_params.put("grant_type", "refresh_token");
-            request_params.put("refresh_token", tokens.getRefreshToken());
-            Map<String, String> response_params = ServerUtilities.postData(context, IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
-            response = response_params.get("response");
-            responseCode = response_params.get("status");
-            Log.d(TAG, response);
-            return response;
+        protected Map<String,String> doInBackground(Void... params) {
+            Map<String, String> requestParams = new HashMap<String, String>();
+            requestParams.put("grant_type", "refresh_token");
+            requestParams.put("refresh_token", tokens.getRefreshToken());
+            Map<String, String> responseResult = ServerUtilities.postData(IdentityProxy.getInstance().getAccessTokenURL(), requestParams, clientID, clientSecret);
+            return responseResult;
         }
 
+        /** Get new access token and refresh token from result
+         *
+         * @param responseResult
+         */
         @Override
-        protected void onPostExecute(String result) {
-            String refreshToken = null;
-            String accessToken = null;
+        protected void onPostExecute(Map<String, String> responseResult) {
+            String response = responseResult.get("response");
+            String responseCode = responseResult.get("status");
             try {
-                JSONObject response = new JSONObject(result);
+                JSONObject responseJsonObj = new JSONObject(response);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
                 if (responseCode != null && responseCode.equals("200")) {
-                    refreshToken = response.getString("refresh_token");
-                    accessToken = response.getString("access_token");
+                    String refreshToken = responseJsonObj.getString("refresh_token");
+                    String accessToken = responseJsonObj.getString("access_token");
                     Log.d(TAG, refreshToken);
                     Log.d(TAG, accessToken);
+
+
                     token.setRefreshToken(refreshToken);
                     token.setAccessToken(accessToken);
                     identityProxy.receiveNewAccessToken(responseCode, "success", token);
                 } else if (responseCode != null && responseCode.equals("400")) {
-                    JSONObject mainObject = new JSONObject(result);
+                    JSONObject mainObject = new JSONObject(response);
                     String error = mainObject.getString("error");
                     String errorDescription = mainObject.getString("error_description");
                     Log.d(TAG, error);
                     Log.d(TAG, errorDescription);
-                    identityProxy.receiveNewAccessToken(responseCode, errorDescription, token);
+                    identityProxy.receiveNewAccessToken(responseCode, errorDescription, null);
                 }
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.d(TAG,e.toString());
             }
         }
     }

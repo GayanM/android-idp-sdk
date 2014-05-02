@@ -18,14 +18,12 @@
  */
 package org.wso2.mobile.idp.proxy;
 
-import android.util.StringBuilderPrinter;
-
 /**
- * package names of IDP proxy application
+ * This callback interface responsible for acknowledging client application that token object is ready to instantiate.
  */
-public class IDPConstants {
-    final static String IDP_PROXY_PACKAGE = "org.wso2.mobile.idp";
-    final static String IDP_PROXY_ACTIVITY = "org.wso2.mobile.idp.WebViewActivity";
-    final static String CALL_BACK_URL = "http://wso2.com";
-    final static int ACCESS_TOKEN_AGE =3000;
+public interface AccessTokenCallBack {
+	/**
+	 * 
+	 */
+    public void onTokenReceived();
 }
