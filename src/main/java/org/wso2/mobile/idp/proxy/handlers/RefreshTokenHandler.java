@@ -25,6 +25,7 @@ import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.wso2.mobile.idp.proxy.IdentityProxy;
+import org.wso2.mobile.idp.proxy.utils.IDPConstants;
 import org.wso2.mobile.idp.proxy.utils.ServerUtilities;
 import org.wso2.mobile.idp.proxy.beans.Token;
 
@@ -70,8 +71,8 @@ public class RefreshTokenHandler extends Activity {
         @Override
         protected Map<String,String> doInBackground(Void... params) {
             Map<String, String> requestParams = new HashMap<String, String>();
-            requestParams.put("grant_type", "refresh_token");
-            requestParams.put("refresh_token", tokens.getRefreshToken());
+            requestParams.put(IDPConstants.GRANT_TYPE, IDPConstants.REFRESH_TOKEN);
+            requestParams.put(IDPConstants.REFRESH_TOKEN, tokens.getRefreshToken());
             Map<String, String> responseResult = ServerUtilities.postData(IdentityProxy.getInstance().getAccessTokenURL(), requestParams, clientID, clientSecret);
             return responseResult;
         }
@@ -88,8 +89,8 @@ public class RefreshTokenHandler extends Activity {
                 JSONObject responseJsonObj = new JSONObject(response);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
                 if (responseCode != null && responseCode.equals(HttpStatus.SC_ACCEPTED)) {
-                    String refreshToken = responseJsonObj.getString("refresh_token");
-                    String accessToken = responseJsonObj.getString("access_token");
+                    String refreshToken = responseJsonObj.getString(IDPConstants.REFRESH_TOKEN);
+                    String accessToken = responseJsonObj.getString(IDPConstants.ACCESS_TOKEN);
                     Log.d(TAG, refreshToken);
                     Log.d(TAG, accessToken);
 

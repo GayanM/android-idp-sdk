@@ -32,5 +32,11 @@ public class IDPConstants {
     public final static String GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code";
     public final static String GRANT_TYPE_REFRESH_TOKEN = "refresh_token";
     public final static String AUTHORIZATION_CODE = "code";
-
+    public final static String REDIRECT_URL = "redirect_url";
+    public final static String SCOPE = "scope";
+    public final static String OPENID = "openid";
+    public final static String REFRESH_TOKEN = "refresh_token";
+    public final static String ACCESS_TOKEN = "access_token";
+    public final static String ID_TOKEN = "id_token";
+    public final static String CLIENT_ID = "client_id";
 }

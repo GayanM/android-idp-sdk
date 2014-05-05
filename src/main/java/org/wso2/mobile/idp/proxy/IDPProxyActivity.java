@@ -52,7 +52,7 @@ public class IDPProxyActivity extends Activity {
         Log.d(TAG, "starting IDP Proxy App");
         final Intent loginIntent = new Intent("android.intent.action.MAIN");
         loginIntent.setComponent(ComponentName.unflattenFromString(IDPConstants.IDP_PROXY_PACKAGE + "/" + IDPConstants.IDP_PROXY_ACTIVITY));
-        loginIntent.putExtra("client_id", clientID);
+        loginIntent.putExtra(IDPConstants.CLIENT_ID, clientID);
         startActivityForResult(loginIntent, 0);//start main activity of IDP proxy application
 	}
 

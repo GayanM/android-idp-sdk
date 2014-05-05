@@ -82,11 +82,11 @@ public class AccessTokenHandler extends Activity {
             Log.d(TAG, code);
             Map<String, String> requestParams = new HashMap<String, String>();
             // TODO : consider extract these as constants
-            requestParams.put("grant_type", "authorization_code");
-            requestParams.put("code", code);
-            requestParams.put("redirect_uri", IDPConstants.CALL_BACK_URL);
-            requestParams.put("scope", "openid");
-            Map<String, String> responseParams = ServerUtilities.postData(IdentityProxy.getInstance().getAccessTokenURL(), request_params, clientID, clientSecret);
+            requestParams.put(IDPConstants.GRANT_TYPE, IDPConstants.GRANT_TYPE_AUTHORIZATION_CODE);
+            requestParams.put(IDPConstants.AUTHORIZATION_CODE, code);
+            requestParams.put(IDPConstants.REDIRECT_URL, IDPConstants.CALL_BACK_URL);
+            requestParams.put(IDPConstants.SCOPE, IDPConstants.OPENID);
+            Map<String, String> responseParams = ServerUtilities.postData(IdentityProxy.getInstance().getAccessTokenURL(), requestParams, clientID, clientSecret);
             return responseParams;
         }
 
@@ -110,9 +110,9 @@ public class AccessTokenHandler extends Activity {
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
                 if (responseCode != null && responseCode.equals(HttpStatus.SC_ACCEPTED)) {
-                    String refreshToken = responseJSONObj.getString("refresh_token");
-                    String accessToken = responseJSONObj.getString("access_token");
-                    String idToken = responseJSONObj.getString("id_token");
+                    String refreshToken = responseJSONObj.getString(IDPConstants.REFRESH_TOKEN);
+                    String accessToken = responseJSONObj.getString(IDPConstants.ACCESS_TOKEN);
+                    String idToken = responseJSONObj.getString(IDPConstants.ID_TOKEN);
 
                     idToken = new String(Base64.decodeBase64(idToken.getBytes()));
 
