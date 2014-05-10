@@ -20,4 +20,5 @@ Android-IDP-SDK is a android library project, which can be utilized to implement
 2. Put target <xxxx>.jar file into your client application build path 
 
 3. Put follwing code segments inside your client application (You can find this from samples provided in samples directory)
-    
+ 
+		Sample code segment You need to you need to put inside client applications     
