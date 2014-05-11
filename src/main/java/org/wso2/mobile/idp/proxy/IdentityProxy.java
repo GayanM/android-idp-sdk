@@ -41,7 +41,7 @@ public class IdentityProxy implements CallBack {
       //  Log.d(TAG, token.getIdToken());
         Log.d(TAG, token.getRefreshToken());
         this.token = token;
-        apiAccessCallBack.onAPIAccessRecive();
+        apiAccessCallBack.onAPIAccessRecive(status);
     }
 
     public void receiveNewAccessToken(String status, String message, Token token) {
