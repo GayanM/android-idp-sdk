@@ -9,7 +9,8 @@ import android.os.AsyncTask;
 
 public class APIController {
 	private static String TAG = "APIController";
-	public  void invokeAPI(APIUtilities apiUtilities, APIResultCallBack apiResultCallBack){
+	public  void invokeAPI(APIUtilities apiUtilities, APIResultCallBack apiResultCallBack,int requestCode){
+		IdentityProxy.getInstance().setRequestCode(requestCode);
 		new NetworkCallTask(apiResultCallBack).execute(apiUtilities);
 	}
 	 private class NetworkCallTask extends AsyncTask<APIUtilities, Void, Map<String,String>> {
@@ -46,7 +47,7 @@ public class APIController {
 	        }
 	        @Override
 	        protected void onPostExecute(Map<String,String> result) {
-	        	apiResultCallBack.onReceiveAPIResult(result);
+	        	apiResultCallBack.onReceiveAPIResult(result,IdentityProxy.getInstance().getRequestCode());
 	        }
 	    }
 }

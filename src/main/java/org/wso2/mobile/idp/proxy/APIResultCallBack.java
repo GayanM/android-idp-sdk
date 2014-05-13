@@ -4,5 +4,5 @@ import java.util.Map;
 
 public interface APIResultCallBack {
 
-	public void onReceiveAPIResult(Map <String,String> result);
+	public void onReceiveAPIResult(Map <String,String> result, int requestCode);
 }

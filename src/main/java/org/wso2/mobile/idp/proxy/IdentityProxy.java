@@ -22,7 +22,14 @@ public class IdentityProxy implements CallBack {
     private String clientSecret;
     private String accessTokenURL;
     private APIAccessCallBack apiAccessCallBack;
+	int requestCode = 0;
+    public int getRequestCode() {
+		return requestCode;
+	}
 
+	public void setRequestCode(int requestCode) {
+		this.requestCode = requestCode;
+	}
 
 	private IdentityProxy() {
 
