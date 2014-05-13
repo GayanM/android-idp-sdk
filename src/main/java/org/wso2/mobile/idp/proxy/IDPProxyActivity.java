@@ -56,7 +56,7 @@ public class IDPProxyActivity extends Activity {
         startActivityForResult(loginIntent, 0);//start main activity of IDP proxy application
 	}
 
-    /** Get authorization code, token endpoint from IDP proxy application as a response
+    /** Get authorization code, token endpoint from IDP proxy application as a response. After receiving authorization code and token endpoint, it sends the second request of authorization grant to obtain access token, refresh token and id token as a response  
      *
      * @param requestCode
      * @param resultCode
