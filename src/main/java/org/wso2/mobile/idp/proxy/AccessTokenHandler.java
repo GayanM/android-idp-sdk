@@ -75,11 +75,10 @@ public class AccessTokenHandler extends Activity {
             String accessToken = null;
             try {
                 JSONObject response = new JSONObject(result);
-                Token token = new Token();
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
                 if (responseCode != null && responseCode.equals("200")) {
-
+                	Token token = new Token();
                     refreshToken = response.getString("refresh_token");
                     accessToken = response.getString("access_token");
                    // idToken = response.getString("id_token");
@@ -100,7 +99,7 @@ public class AccessTokenHandler extends Activity {
                     String errorDescription = mainObject.getString("error_description");
                     Log.d(TAG, error);
                     Log.d(TAG, errorDescription);
-                    identityProxy.receiveAccessToken(responseCode, errorDescription, token);
+                    identityProxy.receiveAccessToken(responseCode, errorDescription, null);
                 }
             } catch (JSONException e) {
                 // TODO Auto-generated catch block
