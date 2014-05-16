@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.HttpStatus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -77,22 +78,18 @@ public class AccessTokenHandler extends Activity {
                 JSONObject response = new JSONObject(result);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
-                if (responseCode != null && responseCode.equals("200")) {
+                if (responseCode != null && responseCode.equals(HttpStatus.SC_OK)) {
                 	Token token = new Token();
                     refreshToken = response.getString("refresh_token");
                     accessToken = response.getString("access_token");
-                   // idToken = response.getString("id_token");
-                  //  idToken = new String(Base64.decodeBase64(idToken.getBytes()));
                     Log.d(TAG, refreshToken);
                     Log.d(TAG, accessToken);
-
                     token.setRefreshToken(refreshToken);
-                 //   token.setIdToken(idToken);
                     token.setAccessToken(accessToken);
                     token.setDate();
                     identityProxy.receiveAccessToken(responseCode, "success", token);
 
-                } else if (responseCode != null && responseCode.equals("400")) {
+                } else if (responseCode != null && responseCode.equals(HttpStatus.SC_BAD_REQUEST)) {
 
                     JSONObject mainObject = new JSONObject(result);
                     String error = mainObject.getString("error");
@@ -102,8 +99,7 @@ public class AccessTokenHandler extends Activity {
                     identityProxy.receiveAccessToken(responseCode, errorDescription, null);
                 }
             } catch (JSONException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                Log.d(TAG,e.toString());
             }
         }
     }

@@ -27,6 +27,9 @@ public class APIController {
 	                token = IdentityProxy.getInstance().getToken();
 		    		String accessToken = token.getAccessToken();
 		    		Map<String, String> headers = new HashMap<String, String>();
+		    		headers.put("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+		    		headers.put("Accept","*/*");
+		    		headers.put("User-Agent","Mozilla/5.0 ( compatible ), Android");
 		    		headers.put("Authorization","Bearer "+accessToken);
 		            Map<String, String> response_params = ServerUtilitiesTemp.postData( apiUtilities,headers);
 		            return response_params;
