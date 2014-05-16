@@ -104,7 +104,8 @@ public class ServerUtilitiesTemp {
     	        return null;
     	    } catch (IOException e) {
     	        Log.d(TAG, e.toString());
-    	        return null;
+    	        response_params.put("response", "Internal Server Error");
+    	        response_params.put("status", String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
     	    }  
     	}else if(httpMethod.equals("PUT")){
     		HttpPut httpPut = new HttpPut(url);
