@@ -78,7 +78,7 @@ public class AccessTokenHandler extends Activity {
                 JSONObject response = new JSONObject(result);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
-                if (responseCode != null && responseCode.equals(String.valueOf(HttpStatus.SC_OK))) {
+                if (responseCode != null && responseCode.equals("200")) {
                 	Token token = new Token();
                     refreshToken = response.getString("refresh_token");
                     accessToken = response.getString("access_token");
@@ -89,7 +89,7 @@ public class AccessTokenHandler extends Activity {
                     token.setDate();
                     identityProxy.receiveAccessToken(responseCode, "success", token);
 
-                } else if (responseCode != null && responseCode.equals(String.valueOf(HttpStatus.SC_BAD_REQUEST))) {
+                } else if (responseCode != null && responseCode.equals("400")) {
 
                     JSONObject mainObject = new JSONObject(result);
                     String error = mainObject.getString("error");
