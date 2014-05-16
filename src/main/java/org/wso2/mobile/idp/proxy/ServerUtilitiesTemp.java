@@ -94,8 +94,10 @@ public class ServerUtilitiesTemp {
     	    try {
     	    	httpPostWithHeaders.setEntity(new ByteArrayEntity(postData));
     	        HttpResponse response = httpclient.execute(httpPostWithHeaders);
+    	        String status = String.valueOf(response.getStatusLine().getStatusCode());
+    	        Log.d(TAG,status);
     	        response_params.put("response", getResponseBody(response));
-    	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+    	        response_params.put("status", status);
     	        return response_params;
     	    } catch (ClientProtocolException e) {
     	    	Log.d(TAG, e.toString());
