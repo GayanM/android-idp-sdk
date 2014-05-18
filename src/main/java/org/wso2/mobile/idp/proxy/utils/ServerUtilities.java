@@ -119,7 +119,6 @@ public class ServerUtilities {
             Log.d(TAG, e.toString());
             return null;
         } catch (IOException e) {
-            Log.d(TAG, e.toString());
             return null;
         }
     }
