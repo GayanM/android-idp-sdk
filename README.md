@@ -10,15 +10,14 @@ Android-IDP-SDK is a android library project, which can be utilized to implement
 
 3. Navigate to oauth and create two oauth applications one for IDP proxy application and other one for your client application, you will get clien id, client secret for both applications. 
 
-4. Go to idp_proxy_application directory and open <XXXXX> application with your android IDE go to <xxxxx> class and put your client id, client secret as constants. Finally install IDP proxy application to your android device. 
+4. Go to idp_proxy_application directory and open IDP-Proxy-Application with your android IDE go to <xxxxx> class and put your client id, client secret as constants. Finally install IDP proxy application to your android device. 
 
 
       Develop SSO enable client application with Android-IDP-SDK
 
 1. Build android library project with maven 3.1.0 or above 
 
-2. Put target <xxxx>.jar file into your client application build path 
+2. Put target android-idp-sdk.jar file into your client application build path 
 
-3. Put follwing code segments inside your client application (You can find this from samples provided in samples directory)
+3. Put sample code segment inside your client application (You can find this from samples provided in samples directory)
  
-		Sample code segment You need to you need to put inside client applications     
