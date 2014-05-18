@@ -18,7 +18,6 @@
  */
 package org.wso2.mobile.idp.proxy.utils;
 
-import android.content.Context;
 import android.util.Log;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.*;
@@ -79,7 +78,7 @@ public class ServerUtilities {
      */
     public static Map<String, String> postData(String url, Map<String, String> params, String clientID, String clientSecret) {
         // Create a new HttpClient and Post Header
-        Map<String, String> response_params = new HashMap<String, String>();
+        Map<String, String> responseParams = new HashMap<String, String>();
         HttpClient httpclient = getCertifiedHttpClient();
         Log.d(TAG, "Posting '" + params.toString() + "' to " + url);
         StringBuilder bodyBuilder = new StringBuilder();
@@ -110,16 +109,17 @@ public class ServerUtilities {
         try {
             httppost.setEntity(new ByteArrayEntity(postData));
             HttpResponse response = httpclient.execute(httppost);
-            Log.d(TAG, response.getStatusLine().getStatusCode() + "");
-            response_params.put("response", getResponseBody(response));
-            response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
-            Log.d(TAG, response_params.get("response"));
-            return response_params;
+            responseParams.put("response", getResponseBody(response));
+            responseParams.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
+            Log.d(TAG, responseParams.get("response"));
+            return responseParams;
         } catch (ClientProtocolException e) {
-            Log.d(TAG, e.toString());
-            return null;
+        	Log.d(TAG,e.toString());
+        	return null;
         } catch (IOException e) {
-            return null;
+        	responseParams.put("response", "Internal Server Error");
+            responseParams.put("status", "500");
+            return responseParams;
         }
     }
 
