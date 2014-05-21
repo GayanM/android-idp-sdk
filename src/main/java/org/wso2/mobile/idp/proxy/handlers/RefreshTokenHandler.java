@@ -88,7 +88,7 @@ public class RefreshTokenHandler extends Activity {
             try {
                 JSONObject responseJsonObj = new JSONObject(response);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
-                if (responseCode != null && responseCode.equals(HttpStatus.SC_ACCEPTED)) {
+                if (responseCode != null && responseCode.equals(String.valueOf(HttpStatus.SC_OK))) {
                     String refreshToken = responseJsonObj.getString(IDPConstants.REFRESH_TOKEN);
                     String accessToken = responseJsonObj.getString(IDPConstants.ACCESS_TOKEN);
                     Log.d(TAG, refreshToken);
@@ -98,7 +98,7 @@ public class RefreshTokenHandler extends Activity {
                     token.setRefreshToken(refreshToken);
                     token.setAccessToken(accessToken);
                     identityProxy.receiveNewAccessToken(responseCode, "success", token);
-                } else if (responseCode != null && responseCode.equals(HttpStatus.SC_BAD_REQUEST)) {
+                } else if (responseCode != null && (responseCode.equals(String.valueOf(HttpStatus.SC_BAD_REQUEST))||responseCode.equals(String.valueOf(HttpStatus.SC_FORBIDDEN))||responseCode.equals(String.valueOf(HttpStatus.SC_UNAUTHORIZED)))) {
                     JSONObject mainObject = new JSONObject(response);
                     String error = mainObject.getString("error");
                     String errorDescription = mainObject.getString("error_description");

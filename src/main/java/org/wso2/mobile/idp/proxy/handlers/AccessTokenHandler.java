@@ -109,7 +109,7 @@ public class AccessTokenHandler extends Activity {
                 JSONObject responseJSONObj = new JSONObject(response);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
-                if (responseCode != null && responseCode.equals(HttpStatus.SC_ACCEPTED)) {
+                if (responseCode != null && responseCode.equals(String.valueOf(HttpStatus.SC_OK))) {
                     String refreshToken = responseJSONObj.getString(IDPConstants.REFRESH_TOKEN);
                     String accessToken = responseJSONObj.getString(IDPConstants.ACCESS_TOKEN);
                     String idToken = responseJSONObj.getString(IDPConstants.ID_TOKEN);
@@ -123,7 +123,7 @@ public class AccessTokenHandler extends Activity {
                     token.setDate();
 
                     identityProxy.receiveAccessToken(responseCode, "success", token);
-                } else if (responseCode != null && responseCode.equals(HttpStatus.SC_BAD_REQUEST)) {
+                } else if (responseCode != null && (responseCode.equals(String.valueOf(HttpStatus.SC_BAD_REQUEST))||responseCode.equals(String.valueOf(HttpStatus.SC_FORBIDDEN))||responseCode.equals(String.valueOf(HttpStatus.SC_UNAUTHORIZED)))) {
 
                     String error = responseJSONObj.getString("error");
                     String errorDescription = responseJSONObj.getString("error_description");
