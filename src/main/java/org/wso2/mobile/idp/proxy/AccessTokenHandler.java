@@ -90,13 +90,16 @@ public class AccessTokenHandler extends Activity {
                     identityProxy.receiveAccessToken(responseCode, "success", token);
 
                 } else if (responseCode != null) {
-
-                    JSONObject mainObject = new JSONObject(result);
-                    String error = mainObject.getString("error");
-                    String errorDescription = mainObject.getString("error_description");
-                    Log.d(TAG, error);
-                    Log.d(TAG, errorDescription);
-                    identityProxy.receiveAccessToken(responseCode, errorDescription, null);
+                	if("500".equals(responseCode)){
+                		identityProxy.receiveAccessToken(responseCode, result, null);
+                	}else{
+                		JSONObject mainObject = new JSONObject(result);
+                        String error = mainObject.getString("error");
+                        String errorDescription = mainObject.getString("error_description");
+                        Log.d(TAG, error);
+                        Log.d(TAG, errorDescription);
+                        identityProxy.receiveAccessToken(responseCode, errorDescription, null);
+                	}
                 }
             } catch (JSONException e) {
                 Log.d(TAG,e.toString());

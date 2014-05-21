@@ -14,6 +14,7 @@ import java.util.concurrent.TimeoutException;
  * client application specific data
  */
 public class IdentityProxy implements CallBack {
+	public final static boolean initiated = false;
     private static String TAG = "IdentityProxy";
     private Token token;
     private static IdentityProxy identityProxy = new IdentityProxy();
