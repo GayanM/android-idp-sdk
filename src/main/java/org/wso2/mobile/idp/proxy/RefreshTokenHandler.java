@@ -71,7 +71,7 @@ public class RefreshTokenHandler extends Activity {
                     token.setRefreshToken(refreshToken);
                     token.setAccessToken(accessToken);
                     identityProxy.receiveNewAccessToken(responseCode, "success", token);
-                } else if (responseCode != null && responseCode.equals("400")) {
+                } else if (responseCode != null) {
                     JSONObject mainObject = new JSONObject(result);
                     String error = mainObject.getString("error");
                     String errorDescription = mainObject.getString("error_description");

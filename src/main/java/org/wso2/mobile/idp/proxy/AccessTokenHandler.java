@@ -89,7 +89,7 @@ public class AccessTokenHandler extends Activity {
                     token.setDate();
                     identityProxy.receiveAccessToken(responseCode, "success", token);
 
-                } else if (responseCode != null && responseCode.equals("400")) {
+                } else if (responseCode != null) {
 
                     JSONObject mainObject = new JSONObject(result);
                     String error = mainObject.getString("error");

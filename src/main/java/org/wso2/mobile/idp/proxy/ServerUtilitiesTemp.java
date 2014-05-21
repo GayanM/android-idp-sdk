@@ -121,8 +121,8 @@ public class ServerUtilitiesTemp {
     	    	Log.d(TAG, e.toString());
     	        return null;
     	    } catch (IOException e) {
-    	        Log.d(TAG, e.toString());
-    	        return null;
+    	    	response_params.put("response", "Internal Server Error");
+    	        response_params.put("status", "500");
     	    }  
     	}else if(httpMethod.equals("GET")){ 
     		if(payload!=null){
