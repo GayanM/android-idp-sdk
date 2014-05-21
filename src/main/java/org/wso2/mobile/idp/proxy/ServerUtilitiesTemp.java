@@ -100,12 +100,13 @@ public class ServerUtilitiesTemp {
     	        response_params.put("status", status);
     	        return response_params;
     	    } catch (ClientProtocolException e) {
-    	    	Log.d(TAG, e.toString());
+    	    	Log.d(TAG, "ClientProtocolException :"+e.toString());
     	        return null;
     	    } catch (IOException e) {
     	        Log.d(TAG, e.toString());
     	        response_params.put("response", "Internal Server Error");
-    	        response_params.put("status", String.valueOf(HttpStatus.SC_INTERNAL_SERVER_ERROR));
+    	        response_params.put("status", "500");
+    	        return response_params;
     	    }  
     	}else if(httpMethod.equals("PUT")){
     		HttpPut httpPut = new HttpPut(url);
@@ -118,11 +119,13 @@ public class ServerUtilitiesTemp {
     	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
     	        return response_params;
     	    } catch (ClientProtocolException e) {
-    	    	Log.d(TAG, e.toString());
+    	    	Log.d(TAG, "ClientProtocolException :"+e.toString());
     	        return null;
     	    } catch (IOException e) {
-    	    	response_params.put("response", "Internal Server Error");
+    	    	Log.d(TAG, e.toString());
+    	        response_params.put("response", "Internal Server Error");
     	        response_params.put("status", "500");
+    	        return response_params;
     	    }  
     	}else if(httpMethod.equals("GET")){ 
     		if(payload!=null){
@@ -137,11 +140,13 @@ public class ServerUtilitiesTemp {
     	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
     	        return response_params;
     	    } catch (ClientProtocolException e) {
-    	    	Log.d(TAG, e.toString());
+    	    	Log.d(TAG, "ClientProtocolException :"+e.toString());
     	        return null;
     	    } catch (IOException e) {
-    	        Log.d(TAG, e.toString());
-    	        return null;
+    	    	Log.d(TAG, e.toString());
+    	        response_params.put("response", "Internal Server Error");
+    	        response_params.put("status", "500");
+    	        return response_params;
     	    }  
     	}else if(httpMethod.equals("Delete")){ 
     		if(payload!=null){
@@ -156,11 +161,13 @@ public class ServerUtilitiesTemp {
     	        response_params.put("status", String.valueOf(response.getStatusLine().getStatusCode()));
     	        return response_params;
     	    } catch (ClientProtocolException e) {
-    	    	Log.d(TAG, e.toString());
+    	    	Log.d(TAG, "ClientProtocolException :"+e.toString());
     	        return null;
     	    } catch (IOException e) {
-    	        Log.d(TAG, e.toString());
-    	        return null;
+    	    	Log.d(TAG, e.toString());
+    	        response_params.put("response", "Internal Server Error");
+    	        response_params.put("status", "500");
+    	        return response_params;
     	    }  
     	}
     	return null;   
