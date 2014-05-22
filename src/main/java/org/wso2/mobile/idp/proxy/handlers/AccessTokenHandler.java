@@ -123,8 +123,7 @@ public class AccessTokenHandler extends Activity {
                     token.setDate();
 
                     identityProxy.receiveAccessToken(responseCode, "success", token);
-                } else if (responseCode != null && (responseCode.equals(String.valueOf(HttpStatus.SC_BAD_REQUEST))||responseCode.equals(String.valueOf(HttpStatus.SC_FORBIDDEN))||responseCode.equals(String.valueOf(HttpStatus.SC_UNAUTHORIZED)))) {
-
+                } else if (responseCode != null) {
                     String error = responseJSONObj.getString("error");
                     String errorDescription = responseJSONObj.getString("error_description");
                     Log.d(TAG, error);

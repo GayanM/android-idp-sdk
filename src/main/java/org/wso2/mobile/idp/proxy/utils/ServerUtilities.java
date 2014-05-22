@@ -35,6 +35,8 @@ import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -117,7 +119,14 @@ public class ServerUtilities {
         	Log.d(TAG,e.toString());
         	return null;
         } catch (IOException e) {
-        	responseParams.put("response", "Internal Server Error");
+        	JSONObject obj = new JSONObject();
+        	try {
+				obj.put("error_description", "Internal Server Error");
+				obj.put("error", "Internal Server Error");
+			} catch (JSONException e1) {
+				Log.d(TAG,e1.toString());
+			}    
+        	responseParams.put("response", obj.toString());
             responseParams.put("status", "500");
             return responseParams;
         }

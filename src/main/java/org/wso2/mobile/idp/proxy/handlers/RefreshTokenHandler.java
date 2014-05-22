@@ -82,9 +82,12 @@ public class RefreshTokenHandler extends Activity {
          * @param responseResult
          */
         @Override
-        protected void onPostExecute(Map<String, String> responseResult) {
-            String response = responseResult.get("response");
-            String responseCode = responseResult.get("status");
+        protected void onPostExecute(Map<String, String> responseParams) {
+        	if(responseParams==null){
+        		return;
+        	}
+            String response = responseParams.get("response");
+            String responseCode = responseParams.get("status");
             try {
                 JSONObject responseJsonObj = new JSONObject(response);
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
@@ -93,15 +96,12 @@ public class RefreshTokenHandler extends Activity {
                     String accessToken = responseJsonObj.getString(IDPConstants.ACCESS_TOKEN);
                     Log.d(TAG, refreshToken);
                     Log.d(TAG, accessToken);
-
-
                     token.setRefreshToken(refreshToken);
                     token.setAccessToken(accessToken);
                     identityProxy.receiveNewAccessToken(responseCode, "success", token);
-                } else if (responseCode != null && (responseCode.equals(String.valueOf(HttpStatus.SC_BAD_REQUEST))||responseCode.equals(String.valueOf(HttpStatus.SC_FORBIDDEN))||responseCode.equals(String.valueOf(HttpStatus.SC_UNAUTHORIZED)))) {
-                    JSONObject mainObject = new JSONObject(response);
-                    String error = mainObject.getString("error");
-                    String errorDescription = mainObject.getString("error_description");
+                } else if (responseCode != null) {
+                    String error = responseJsonObj.getString("error");
+                    String errorDescription = responseJsonObj.getString("error_description");
                     Log.d(TAG, error);
                     Log.d(TAG, errorDescription);
                     identityProxy.receiveNewAccessToken(responseCode, errorDescription, null);
