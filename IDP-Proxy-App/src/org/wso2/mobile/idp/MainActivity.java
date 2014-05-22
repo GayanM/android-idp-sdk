@@ -40,6 +40,7 @@ public class MainActivity extends Activity{
 				Intent i = new Intent(MainActivity.this, WebViewActivity.class);
 				i.putExtra("self_login", "self_login");
 				startActivity(i);
+				finish();
 			}
 
 		});
@@ -110,7 +111,6 @@ public class MainActivity extends Activity{
 				outputStream.close();
 				super.onActivityResult(requestCode, resultCode, data);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				Log.d(TAG, e.toString());
 			} catch (Exception e) {
 				Log.d(TAG, e.toString());
