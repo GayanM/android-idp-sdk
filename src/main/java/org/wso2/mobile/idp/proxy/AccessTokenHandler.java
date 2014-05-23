@@ -2,7 +2,10 @@ package org.wso2.mobile.idp.proxy;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpStatus;
@@ -79,9 +82,14 @@ public class AccessTokenHandler extends Activity {
                 IdentityProxy identityProxy = IdentityProxy.getInstance();
 
                 if (responseCode != null && responseCode.equals("200")) {
-                	Token token = new Token();
+                	Token token = new Token();   	
                     refreshToken = response.getString("refresh_token");
                     accessToken = response.getString("access_token");
+                    
+                    SharedPreferences mainPref = IdentityProxy.getInstance().getContext().getSharedPreferences("com.mdm",Context.MODE_PRIVATE);
+                    Editor editor = mainPref.edit();
+                    editor.putString("refresh_token",refreshToken);
+                    editor.commit();
                     Log.d(TAG, refreshToken);
                     Log.d(TAG, accessToken);
                     token.setRefreshToken(refreshToken);

@@ -1,6 +1,9 @@
 package org.wso2.mobile.idp.proxy;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.text.DateFormat;
@@ -18,7 +21,7 @@ public class IdentityProxy implements CallBack {
     private static String TAG = "IdentityProxy";
     private Token token;
     private static IdentityProxy identityProxy = new IdentityProxy();
-    private Context context;
+    private static Context context;
     private String clientID;
     private String clientSecret;
     private String accessTokenURL;
@@ -60,15 +63,49 @@ public class IdentityProxy implements CallBack {
     public static synchronized IdentityProxy getInstance() {
         return identityProxy;
     }
-    
-    public void init(String clientID, String clientSecret,String username, String password,String tokenEndPoint, APIAccessCallBack apiAccessCallBack) {
+    public void init(String clientID, String clientSecret){
+    	this.clientID = clientID;
+    	this.clientSecret = clientSecret;		
+    }
+    public void init(String clientID, String clientSecret,String username, String password,String tokenEndPoint, APIAccessCallBack apiAccessCallBack, Context contextt) {
         this.clientID = clientID;
         this.clientSecret = clientSecret;
         this.apiAccessCallBack = apiAccessCallBack;
+        context = contextt;
+        SharedPreferences mainPref = context.getSharedPreferences("com.mdm",Context.MODE_PRIVATE);
+        Editor editor = mainPref.edit();
+        editor.putString("client_id",clientID);
+        editor.putString("client_secret",clientSecret);
+        editor.commit();
         AccessTokenHandler accessTokenHandler = new AccessTokenHandler(clientID, clientSecret, username, password, tokenEndPoint, this);
         accessTokenHandler.obtainAccessToken();
     }
 
+    public Token getToken(Context contextt) throws Exception, InterruptedException, ExecutionException, TimeoutException {
+    	context = contextt;
+        SharedPreferences mainPref = context.getSharedPreferences("com.mdm",Context.MODE_PRIVATE);
+        String refreshToken = mainPref.getString("refresh_token","Default").toString();
+        
+        if(token == null){
+        	if(refreshToken == null){
+                return null;
+        	}else if(refreshToken != null){
+        		this.clientID = mainPref.getString("client_id","Default").toString();
+        		this.clientSecret = mainPref.getString("client_secret","Default").toString();
+        		token = new Token();
+        		token.setRefreshToken(refreshToken);
+        	}
+        }
+
+        boolean decision = dateComparison(token.getDate());
+        if (decision) {
+            return token;
+        }
+        RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(context, clientID, clientSecret, token);
+        refreshTokenHandler.obtainNewAccessToken();
+        return token;
+    }
+    
     public Token getToken() throws Exception, InterruptedException, ExecutionException, TimeoutException {
         if(token == null){
             return null;
@@ -80,6 +117,10 @@ public class IdentityProxy implements CallBack {
         RefreshTokenHandler refreshTokenHandler = new RefreshTokenHandler(context, clientID, clientSecret, token);
         refreshTokenHandler.obtainNewAccessToken();
         return token;
+    }
+    
+    public Context getContext(){
+    	return context;
     }
 
     public boolean dateComparison(Date date) {
